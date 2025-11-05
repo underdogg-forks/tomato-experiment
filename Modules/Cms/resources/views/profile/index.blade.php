@@ -74,7 +74,7 @@
                     </div>
                     @endif
                     <h6 class="my-2 text-sm text-slate-500 dark:text-slate-300">
-                        Joined {{ $account->created_at->diffForHumans() }}
+                        {{ trans('tomato.joined') }} {{ $account->created_at->diffForHumans() }}
                     </h6>
                 </div>
             </div>
