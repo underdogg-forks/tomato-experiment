@@ -15,7 +15,7 @@ trait HasDeleteAccount
         return $form
             ->schema([
                 Textarea::make('reason')
-                    ->label(__('filament-accounts::messages.profile.delete_account.reason'))
+                    ->label(trans('filament-accounts::messages.profile.delete_account.reason'))
                     ->rows(3),
             ])
             ->statePath('deleteAccountData');
@@ -24,7 +24,7 @@ trait HasDeleteAccount
     public function deleteAccount(): void
     {
         Notification::make()
-            ->title(__('filament-accounts::messages.profile.delete_account.disabled'))
+            ->title(trans('filament-accounts::messages.profile.delete_account.disabled'))
             ->warning()
             ->send();
     }

@@ -14,7 +14,7 @@ trait HasBrowserSessions
         return $form->schema([
             TextInput::make('current_password')
                 ->password()
-                ->label(__('filament-accounts::messages.profile.browser_sessions.password')),
+                ->label(trans('filament-accounts::messages.profile.browser_sessions.password')),
         ])->statePath('browserSessionsData');
     }
 

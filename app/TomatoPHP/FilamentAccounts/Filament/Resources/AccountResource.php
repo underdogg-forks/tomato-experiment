@@ -18,8 +18,8 @@ class AccountResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->label(__('Name')),
-            Forms\Components\TextInput::make('email')->label(__('Email')),
+            Forms\Components\TextInput::make('name')->label(trans('Name')),
+            Forms\Components\TextInput::make('email')->label(trans('Email')),
         ]);
     }
 

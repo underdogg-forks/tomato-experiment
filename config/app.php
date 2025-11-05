@@ -138,7 +138,7 @@ return [
             ],
         ],
         'filament-translations' => [
-            'description' => 'Manage your translation with DB and cache, you can scan your language tags like trans(), __(), and get the string inside and translate them using UI.',
+            'description' => 'Manage your translation with DB and cache, you can scan your language tags like trans(), trans(), and get the string inside and translate them using UI.',
             'url' => 'https://docs.tomatophp.com/filament/filament-translations',
             'key' => 'filament-translations',
             'label' => 'Translation Manager',

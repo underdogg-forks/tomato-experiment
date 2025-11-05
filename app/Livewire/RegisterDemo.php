@@ -130,11 +130,11 @@ class RegisterDemo extends Component implements HasActions, HasForms
                     $this->rateLimit(5);
                 } catch (TooManyRequestsException $exception) {
                     Notification::make()
-                        ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                        ->title(trans('filament-panels::pages/auth/login.notifications.throttled.title', [
                             'seconds' => $exception->secondsUntilAvailable,
                             'minutes' => ceil($exception->secondsUntilAvailable / 60),
                         ]))
-                        ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                        ->body(array_key_exists('body', trans('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? trans('filament-panels::pages/auth/login.notifications.throttled.body', [
                             'seconds' => $exception->secondsUntilAvailable,
                             'minutes' => ceil($exception->secondsUntilAvailable / 60),
                         ]) : null)
@@ -253,15 +253,15 @@ class RegisterDemo extends Component implements HasActions, HasForms
                 try {
                     $this->rateLimit(5);
                 } catch (TooManyRequestsException $exception) {
-                    Notification::make()
-                        ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
-                            'seconds' => $exception->secondsUntilAvailable,
-                            'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                        ]))
-                        ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
-                            'seconds' => $exception->secondsUntilAvailable,
-                            'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                        ]) : null)
+                        Notification::make()
+                            ->title(trans('filament-panels::pages/auth/login.notifications.throttled.title', [
+                                'seconds' => $exception->secondsUntilAvailable,
+                                'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                            ]))
+                            ->body(array_key_exists('body', trans('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? trans('filament-panels::pages/auth/login.notifications.throttled.body', [
+                                'seconds' => $exception->secondsUntilAvailable,
+                                'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                            ]) : null)
                         ->danger()
                         ->send();
 

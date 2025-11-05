@@ -17,14 +17,14 @@ trait HasEditPassword
             ->schema([
                 TextInput::make('current_password')
                     ->password()
-                    ->label(__('filament-accounts::messages.profile.password.current')),
+                    ->label(trans('filament-accounts::messages.profile.password.current')),
                 TextInput::make('password')
                     ->password()
                     ->same('password_confirmation')
-                    ->label(__('filament-accounts::messages.profile.password.new')),
+                    ->label(trans('filament-accounts::messages.profile.password.new')),
                 TextInput::make('password_confirmation')
                     ->password()
-                    ->label(__('filament-accounts::messages.profile.password.confirmation')),
+                    ->label(trans('filament-accounts::messages.profile.password.confirmation')),
             ])
             ->statePath('passwordData');
     }
@@ -36,7 +36,7 @@ trait HasEditPassword
         ])->save();
 
         Notification::make()
-            ->title(__('filament-accounts::messages.profile.password.updated'))
+            ->title(trans('filament-accounts::messages.profile.password.updated'))
             ->success()
             ->send();
     }
