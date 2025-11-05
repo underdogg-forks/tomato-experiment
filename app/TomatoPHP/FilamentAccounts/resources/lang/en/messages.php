@@ -25,7 +25,7 @@ return [
         ],
     ],
     'accounts' => [
-        'coulmns' => [
+        'columns' => [
             'avatar' => 'Avatar',
         ],
     ],

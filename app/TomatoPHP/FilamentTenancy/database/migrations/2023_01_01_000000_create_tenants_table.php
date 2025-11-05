@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('password')->nullable();
             $table->json('packages')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true)->index();
             $table->json('data')->nullable();
             $table->timestamps();
         });

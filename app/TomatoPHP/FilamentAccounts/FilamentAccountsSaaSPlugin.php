@@ -26,6 +26,10 @@ class FilamentAccountsSaaSPlugin extends Plugin
         return $this;
     }
 
+    /**
+     * @param Panel $panel
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function register(Panel $panel): void
     {
         // The original package registers panel pages here. The inline
@@ -33,6 +37,10 @@ class FilamentAccountsSaaSPlugin extends Plugin
         // requiring the underlying vendor package.
     }
 
+    /**
+     * @param Panel $panel
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function boot(Panel $panel): void
     {
         // Nothing to bootstrap for the simplified inline plugin.

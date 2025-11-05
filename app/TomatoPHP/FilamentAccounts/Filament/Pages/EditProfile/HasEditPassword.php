@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 trait HasEditPassword
 {
-    public ?array $passwordData = [];
+    public array $passwordData = [];
 
     public function editPasswordForm(Form $form): Form
     {

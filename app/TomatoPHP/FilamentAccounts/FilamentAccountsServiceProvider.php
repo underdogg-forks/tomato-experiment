@@ -37,3 +37,5 @@ class FilamentAccountsServiceProvider extends ServiceProvider
         Lang::addNamespace('filament-accounts', __DIR__.'/resources/lang');
     }
 }
+    }
+}
