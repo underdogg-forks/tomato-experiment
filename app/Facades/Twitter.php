@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Facades;
 
 use App\Services\Twitter\OAuthTwitter;
@@ -13,7 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @see OAuthTwitter
  * @see TwitterFake
  */
-final class Twitter extends Facade
+class Twitter extends Facade
 {
     public static function fake(): void
     {

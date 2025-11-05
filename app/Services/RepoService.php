@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services;
 
 use App\Clients\GitHub;
@@ -55,9 +53,7 @@ final readonly class RepoService
     {
         $fullRepoName = $repo->owner . '/' . $repo->name;
 
-        $result = app(GitHub::class)
-            ->client()
-            ->get('repos/' . $fullRepoName);
+        $result = app(GitHub::class)->request('GET', 'repos/' . $fullRepoName);
 
         if ( ! $result->successful()) {
             $this->handleUnsuccessfulIssueRequest($result, $fullRepoName);
@@ -115,12 +111,12 @@ final readonly class RepoService
             key: 'repos.orgs.' . $org,
             ttl: now()->addWeek(),
             callback: function () use ($org): array {
-                $client = app(GitHub::class)->client();
+                $client = app(GitHub::class);
                 $page   = 1;
 
                 $repos = collect();
 
-                while ($result = $client->get("orgs/{$org}/repos", ['per_page' => 100, 'type' => 'sources', 'page' => $page])->json()) {
+                while ($result = $client->request('GET', "orgs/{$org}/repos", ['query' => ['per_page' => 100, 'type' => 'sources', 'page' => $page]])->json()) {
                     $repoNames = collect($result)
                         ->reject(fn (array $repo): bool => $this->repoIsArchived($repo))
                         ->pluck('name');

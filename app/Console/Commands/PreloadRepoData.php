@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands;
 
 use App\Jobs\PreloadIssuesForRepos;
@@ -11,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
 
-final class PreloadRepoData extends Command
+class PreloadRepoData extends Command
 {
     protected $signature = 'repos:preload';
 

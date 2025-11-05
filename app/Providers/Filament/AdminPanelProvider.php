@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\AppDashboard;
 use App\Filament\Resources\TenantResource;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -109,7 +108,6 @@ class AdminPanelProvider extends PanelProvider
                 FilamentMenusPlugin::make(),
                 FilamentLanguageSwitcherPlugin::make(),
                 FilamentUsersPlugin::make(),
-                FilamentShieldPlugin::make(),
                 FilamentFcmPlugin::make(),
                 FilamentPWAPlugin::make(),
             ])

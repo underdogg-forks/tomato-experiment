@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands;
 
 use App\Jobs\EnsureRepoIsCrawlable;
@@ -10,7 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Throwable;
 
-final class EnsureCrawlableRepos extends Command
+class EnsureCrawlableRepos extends Command
 {
     protected $signature = 'repos:crawlable';
 

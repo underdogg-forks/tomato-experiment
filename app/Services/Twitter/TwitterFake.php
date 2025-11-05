@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services\Twitter;
 
 use Illuminate\Support\Arr;
 use PHPUnit\Framework\Assert;
 use stdClass;
 
-final class TwitterFake implements TwitterInterface
+class TwitterFake implements TwitterInterface
 {
     private array $tweets = [];
 

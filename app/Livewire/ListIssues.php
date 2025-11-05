@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Livewire;
 
 use App\DataTransferObjects\Issue;
@@ -16,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Livewire\Component;
 
-final class ListIssues extends Component
+class ListIssues extends Component
 {
     private const SORTS = [
         'random' => [

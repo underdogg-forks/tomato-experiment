@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands;
 
 use App\DataTransferObjects\Issue;
@@ -13,7 +11,7 @@ use Illuminate\Support\Collection;
 
 use function Termwind\terminal;
 
-final class TweetAboutNewIssues extends Command
+class TweetAboutNewIssues extends Command
 {
     protected $signature = 'issues:tweet';
 
