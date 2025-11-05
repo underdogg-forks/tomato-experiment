@@ -55,7 +55,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Role;
 use Stancl\Tenancy\Events\SyncedResourceChangedInForeignDatabase;
@@ -89,7 +88,6 @@ use TomatoPHP\FilamentInvoices\Facades\FilamentInvoices;
 use TomatoPHP\FilamentInvoices\Models\Invoice;
 use TomatoPHP\FilamentInvoices\Services\Contracts\InvoiceFor;
 use TomatoPHP\FilamentInvoices\Services\Contracts\InvoiceFrom;
-use TomatoPHP\FilamentIssues\Facades\FilamentIssues;
 use TomatoPHP\FilamentLocations\Models\City;
 use TomatoPHP\FilamentLocations\Models\Country;
 use TomatoPHP\FilamentLocations\Models\Currency;
@@ -124,7 +122,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        URL::forceScheme('https');
+        //URL::forceScheme('https');
 
         Event::listen(SyncedResourceChangedInForeignDatabase::class, function ($data) {
             config(['database.connections.dynamic.database' => $data->tenant->tenancy_db_name]);

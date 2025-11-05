@@ -7,13 +7,13 @@
     @include('cms::parts.pwa')
 </head>
 <body
-    class="hidden app antialiased text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-slate-950 ibm-plex-sans-arabic-medium">
+    class="app antialiased text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-slate-950 ibm-plex-sans-arabic-medium">
 @include('cms::parts.header')
 <main>
     @yield('body')
 </main>
 
-@include('cms::parts.footer')
-{{--@include('cms::parts.js')--}}
+{{--@include('cms::parts.footer')--}}
+@include('cms::parts.js')
 </body>
 </html>
