@@ -13,7 +13,7 @@ export default {
     darkMode: "class", // or 'media' or 'class'
     theme: {
         fontFamily: {
-            main: ["IBM Plex Sans Arabic"],
+            main: ["Poppins"],
         },
         asideScrollbars: {
             light: "light",

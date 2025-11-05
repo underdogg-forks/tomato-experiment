@@ -36,6 +36,7 @@ use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
 use TomatoPHP\FilamentSeo\FilamentSeoPlugin;
 use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
 use TomatoPHP\FilamentTenancy\FilamentTenancyPlugin;
+use TomatoPHP\FilamentTranslations\Filament\Resources\TranslationResource;
 use TomatoPHP\FilamentTranslations\FilamentTranslationsPlugin;
 use TomatoPHP\FilamentTypes\FilamentTypesPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
@@ -87,7 +88,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('tomato.png'))
             ->brandLogoHeight('80px')
             ->font(
-                'Inter',
+                'Poppins',
                 provider: GoogleFontProvider::class,
             )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -289,7 +290,7 @@ class AdminPanelProvider extends PanelProvider
             $systemItems[] = NavigationItem::make('Translations')
                 ->icon('heroicon-o-language')
                 ->url('/admin/translations')
-                ->visible(fn (): bool => class_exists(\TomatoPHP\FilamentTranslations\Resources\TranslationResource::class));
+                ->visible(fn (): bool => class_exists(TranslationResource::class));
         }
 
         if ($this->menuConfig['alerts'] ?? true) {

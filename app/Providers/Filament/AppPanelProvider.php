@@ -71,7 +71,7 @@ class AppPanelProvider extends PanelProvider
             ->brandLogo(asset('tomato.png'))
             ->brandLogoHeight('80px')
             ->font(
-                'IBM Plex Sans Arabic',
+                'Poppins',
                 provider: GoogleFontProvider::class,
             )
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')

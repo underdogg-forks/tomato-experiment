@@ -53,7 +53,7 @@ class AppsPanelProvider extends PanelProvider
             ->brandLogoHeight('80px')
             ->homeUrl(url('/'))
             ->font(
-                'IBM Plex Sans Arabic',
+                'Poppins',
                 provider: GoogleFontProvider::class,
             )
             ->userMenuItems([
