@@ -2,12 +2,8 @@
 
 namespace Modules\HomeTheme\Providers;
 
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use TomatoPHP\FilamentCms\Facades\FilamentCMS;
-use TomatoPHP\FilamentCms\Services\Contracts\Section;
 
 class HomeThemeServiceProvider extends ServiceProvider
 {
@@ -27,7 +23,7 @@ class HomeThemeServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
-        FilamentCMS::themes()->register([
+        /*FilamentCMS::themes()->register([
             Section::make('demo')
                 ->view('hometheme::sections.demo')
                 ->label('Demo Section')
@@ -36,7 +32,7 @@ class HomeThemeServiceProvider extends ServiceProvider
                     TextInput::make('title')->label('Title'),
                     Textarea::make('description')->label('Description'),
                 ]),
-        ]);
+        ]);*/
     }
 
     /**

@@ -21,9 +21,9 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use TomatoPHP\FilamentFcm\FilamentFcmPlugin;
+use TomatoPHP\FilamentLanguageSwitcher\Http\Middleware\LanguageMiddleware;
 use TomatoPHP\FilamentNotes\Filament\Widgets\NotesWidget;
 use TomatoPHP\FilamentNotes\FilamentNotesPlugin;
-use TomatoPHP\FilamentTranslations\Http\Middleware\LanguageMiddleware;
 
 class AppsPanelProvider extends PanelProvider
 {

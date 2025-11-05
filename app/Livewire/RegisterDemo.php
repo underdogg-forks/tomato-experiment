@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Tenant;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Exception;
@@ -16,10 +17,9 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
-use Modules\Core\Models\Tenant;
-use Str;
 
 class RegisterDemo extends Component implements HasActions, HasForms
 {

@@ -30,8 +30,8 @@ class ListDemos extends ManageRecords
                         return $countCurrentUserTenants->first();
                     }
 
-                    $data['id']     = \Str::of($data['name'])->slug('_')->toString();
-                    $data['domain'] = \Str::of($data['name'])->slug()->toString();
+                    $data['id']     = Str::of($data['name'])->slug('_')->toString();
+                    $data['domain'] = Str::of($data['name'])->slug()->toString();
                     if ( ! empty(auth('accounts')->user()->password)) {
                         $data['password'] = auth('accounts')->user()->password;
                     } else {
@@ -52,7 +52,7 @@ class ListDemos extends ManageRecords
                             'EMAIL: ' . $data['email'],
                             'USERNAME: ' . $data['domain'],
                             'PACKAGES: ' . collect($data['packages'])->implode(','),
-                            'URL: ' . 'https://' . \Str::of($data['name'])->slug()->toString() . '.' . config('app.domain'),
+                            'URL: ' . 'http://' . Str::of($data['name'])->slug()->toString() . '.' . config('app.domain'),
                         ])->implode("\n"))
                         ->sendToDiscord();
 

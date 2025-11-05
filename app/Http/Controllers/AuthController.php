@@ -6,6 +6,7 @@ use App\Models\Account;
 use Exception;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use TomatoPHP\FilamentDiscord\Jobs\NotifyDiscordJob;
 
@@ -50,7 +51,7 @@ class AuthController extends Controller
             if (isset($socialUser->attributes['nickname'])) {
                 $id = str($socialUser->attributes['nickname'])->slug('_');
             } else {
-                $id = \Str::of($socialUser->name)->slug('_')->toString();
+                $id = Str::of($socialUser->name)->slug('_')->toString();
             }
 
             $user = Account::query()->whereHas('accountsMetas', function ($query) use ($socialUser, $provider) {
