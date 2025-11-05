@@ -207,6 +207,24 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     }
 
     /**
+     * Get the user that owns the account.
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'account_id', 'id');
+    }
+
+    /**
+     * Get the tenants owned by this account.
+     *
+     * @return HasMany
+     */
+    public function tenants(): HasMany
+    {
+        return $this->hasMany(Tenant::class, 'account_id', 'id');
+    }
+
+    /**
      * @return HasMany
      */
     public function likes(): HasMany
@@ -319,6 +337,6 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
 
     public function getTenants(Panel $panel): array|Collection
     {
-        return [];
+        return $this->tenants;
     }
 }

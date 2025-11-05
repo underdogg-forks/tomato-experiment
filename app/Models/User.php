@@ -35,6 +35,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'packages',
         'username',
         'profile_photo_path',
+        'account_id',
     ];
 
     /**
@@ -55,6 +56,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->profile_photo_path;
+    }
+
+    /**
+     * Get the account that owns the user.
+     */
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 
     /**

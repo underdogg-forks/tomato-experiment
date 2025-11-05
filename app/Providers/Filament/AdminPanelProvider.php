@@ -222,7 +222,7 @@ class AdminPanelProvider extends PanelProvider
                 ->icon('heroicon-o-users')
                 ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.resources.users.*'))
                 ->url('/admin/users')
-                ->visible(fn (): bool => class_exists(\TomatoPHP\FilamentUsers\Resources\UserResource::class));
+                ->visible(fn (): bool => class_exists(UserResource::class));
         }
 
         if ($this->menuConfig['accounts'] ?? true) {
@@ -231,7 +231,7 @@ class AdminPanelProvider extends PanelProvider
                 ->icon('heroicon-o-user-group')
                 ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.resources.accounts.*'))
                 ->url('/admin/accounts')
-                ->visible(fn (): bool => class_exists(\TomatoPHP\FilamentAccounts\Resources\AccountResource::class));
+                ->visible(fn (): bool => class_exists(AccountResource::class));
         }
 
         if ($this->menuConfig['shield'] ?? true) {

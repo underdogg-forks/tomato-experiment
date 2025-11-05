@@ -27,13 +27,14 @@ class TenantFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'        => 'tenant_' . Str::random(8),
-            'name'      => fake()->company(),
-            'email'     => fake()->unique()->companyEmail(),
-            'phone'     => fake()->phoneNumber(),
-            'password'  => static::$password ??= Hash::make('password'),
-            'is_active' => true,
-            'packages'  => [],
+            'id'         => 'tenant_' . Str::random(8),
+            'name'       => fake()->company(),
+            'email'      => fake()->unique()->companyEmail(),
+            'phone'      => fake()->phoneNumber(),
+            'password'   => static::$password ??= Hash::make('password'),
+            'is_active'  => true,
+            'packages'   => [],
+            'account_id' => \App\Models\Account::factory(),
         ];
     }
 }

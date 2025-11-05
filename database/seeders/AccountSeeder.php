@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\AccountType;
 use App\Enums\LoginBy;
 use App\Models\Account;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,7 +38,21 @@ class AccountSeeder extends Seeder
             $superAdmin->assignRole('super_admin');
         }
 
-        $this->command->info('Super Admin account created successfully!');
+        // Create a user for the super admin account (1 user -> 1 account)
+        $superAdminUser = User::firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name'              => 'Super Admin',
+                'email'             => 'admin@admin.com',
+                'password'          => Hash::make('password'),
+                'email_verified_at' => now(),
+                'username'          => 'admin',
+                'packages'          => [],
+                'account_id'        => $superAdmin->id,
+            ]
+        );
+
+        $this->command->info('Super Admin account and user created successfully!');
         $this->command->info('Email: admin@admin.com');
         $this->command->info('Password: password');
     }
