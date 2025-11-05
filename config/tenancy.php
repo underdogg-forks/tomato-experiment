@@ -183,7 +183,7 @@ return [
         '--force' => true, // This needs to be true to run migrations in production.
         '--path' => [
             database_path('migrations/tenant'),
-            base_path('/vendor/tomatophp/filament-tenancy/database/migrations'),
+            base_path('app/TomatoPHP/FilamentTenancy/database/migrations'),
             base_path('vendor/tomatophp/filament-types/database/migrations'),
             base_path('vendor/tomatophp/filament-alerts/database/migrations'),
             base_path('vendor/tomatophp/filament-cms/database/migrations'),

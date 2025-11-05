@@ -38,7 +38,6 @@
         "stancl/tenancy": "^3.8",
         "stechstudio/filament-impersonate": "^3.13",
         "stichoza/google-translate-php": "^5.1",
-        "tomatophp/filament-accounts": "^2.0",
         "tomatophp/filament-alerts": "^2.0",
         "tomatophp/filament-api": "^1.0",
         "tomatophp/filament-cms": "^1.0",
@@ -59,10 +58,8 @@
         "tomatophp/filament-seo": "^1.0",
         "tomatophp/filament-settings-hub": "^1.0",
         "tomatophp/filament-subscriptions": "^1.0",
-        "tomatophp/filament-tenancy": "^1.0",
         "tomatophp/filament-translations": "^1.0",
         "tomatophp/filament-types": "*",
-        "tomatophp/filament-users": "^1.0",
         "tomatophp/filament-wallet": "^1.0",
         "tomatophp/filament-withdrawals": "^1.0",
         "tomatophp/laravel-package-generator": "^1.0",
@@ -71,19 +68,24 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
+        "driftingly/rector-laravel": "^0.5",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.4"
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.0",
+        "rector/rector": "^1.0"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "TomatoPHP\\FilamentTenancy\\": "app/TomatoPHP/FilamentTenancy/",
+            "TomatoPHP\\FilamentAccounts\\": "app/TomatoPHP/FilamentAccounts/",
+            "TomatoPHP\\FilamentUsers\\": "app/TomatoPHP/FilamentUsers/"
         }
     },
     "autoload-dev": {
@@ -124,10 +126,13 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true,
             "wikimedia/composer-merge-plugin": true
         }
+    },
+    "replace": {
+        "tomatophp/filament-accounts": "*",
+        "tomatophp/filament-users": "*"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
