@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withProviders([
         \TomatoPHP\FilamentTenancy\FilamentTenancyServiceProvider::class,
+        \TomatoPHP\FilamentAccounts\FilamentAccountsServiceProvider::class,
+        \TomatoPHP\FilamentUsers\FilamentUsersServiceProvider::class,
     ])
     ->withCommands([
         \App\Console\Commands\EnsureCrawlableRepos::class,
