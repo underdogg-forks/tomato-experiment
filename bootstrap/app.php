@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up'
     )
+    ->withProviders([
+        \TomatoPHP\FilamentTenancy\FilamentTenancyServiceProvider::class,
+    ])
     ->withCommands([
         \App\Console\Commands\EnsureCrawlableRepos::class,
         \App\Console\Commands\PreloadRepoData::class,

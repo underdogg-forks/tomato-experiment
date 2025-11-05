@@ -59,7 +59,6 @@
         "tomatophp/filament-seo": "^1.0",
         "tomatophp/filament-settings-hub": "^1.0",
         "tomatophp/filament-subscriptions": "^1.0",
-        "tomatophp/filament-tenancy": "^1.0",
         "tomatophp/filament-translations": "^1.0",
         "tomatophp/filament-types": "*",
         "tomatophp/filament-users": "^1.0",
@@ -85,7 +84,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "TomatoPHP\\FilamentTenancy\\": "app/TomatoPHP/FilamentTenancy/"
         }
     },
     "autoload-dev": {

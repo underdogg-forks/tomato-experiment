@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6687cdd0692068d5d2a0573d17bcee65",
+    "content-hash": "366cd441571866a42ab653a62b436483",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -537,7 +537,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "email": "jerome@gamez.name"
                 }
             ],
@@ -609,7 +609,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "email": "jerome@gamez.name"
                 }
             ],
@@ -669,7 +669,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "email": "jerome@gamez.name"
                 }
             ],
@@ -4102,7 +4102,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -4297,7 +4297,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -4307,7 +4307,7 @@
                     "homepage": "https://github.com/Tobion"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://sagikazarmark.hu"
                 }
@@ -4745,7 +4745,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "homepage": "https://github.com/jeromegamez"
                 }
             ],
@@ -4820,7 +4820,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "homepage": "https://github.com/jeromegamez"
                 }
             ],
@@ -5768,7 +5768,7 @@
             ],
             "authors": [
                 {
-                    "name": "Luís Cobucci",
+                    "name": "Lu\u00eds Cobucci",
                     "email": "lcobucci@gmail.com"
                 }
             ],
@@ -5836,7 +5836,7 @@
             ],
             "authors": [
                 {
-                    "name": "Luís Cobucci",
+                    "name": "Lu\u00eds Cobucci",
                     "email": "lcobucci@gmail.com",
                     "role": "Developer"
                 }
@@ -6780,7 +6780,7 @@
                     "email": "pabs@pablotron.org"
                 },
                 {
-                    "name": "Jonatan Männchen",
+                    "name": "Jonatan M\u00e4nnchen",
                     "email": "jonatan@maennchen.ch"
                 },
                 {
@@ -6788,7 +6788,7 @@
                     "email": "donatj@gmail.com"
                 },
                 {
-                    "name": "András Kolesár",
+                    "name": "Andr\u00e1s Koles\u00e1r",
                     "email": "kolesar@kolesar.hu"
                 }
             ],
@@ -6860,7 +6860,7 @@
                     "role": "Maintainer"
                 },
                 {
-                    "name": "João Oliveira",
+                    "name": "Jo\u00e3o Oliveira",
                     "email": "joao@joliveira.pt",
                     "homepage": "https://joliveira.pt",
                     "role": "Original Developer"
@@ -7586,7 +7586,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "📐 Nette Schema: validating data structures against a given Schema.",
+            "description": "\ud83d\udcd0 Nette Schema: validating data structures against a given Schema.",
             "homepage": "https://nette.org",
             "keywords": [
                 "config",
@@ -7660,7 +7660,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "description": "\ud83d\udee0  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
             "homepage": "https://nette.org",
             "keywords": [
                 "array",
@@ -7723,11 +7723,11 @@
             ],
             "authors": [
                 {
-                    "name": "Nicolò Martini",
+                    "name": "Nicol\u00f2 Martini",
                     "email": "nicmartnic@gmail.com"
                 },
                 {
-                    "name": "Andreas Möller",
+                    "name": "Andreas M\u00f6ller",
                     "email": "am@localheinz.com"
                 }
             ],
@@ -8515,7 +8515,7 @@
             ],
             "authors": [
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com"
                 }
             ],
@@ -8943,7 +8943,7 @@
                     "role": "Developer"
                 },
                 {
-                    "name": "Hans-Jürgen Petrich",
+                    "name": "Hans-J\u00fcrgen Petrich",
                     "email": "petrich@tronic-media.com",
                     "role": "Developer"
                 },
@@ -12064,7 +12064,7 @@
             ],
             "authors": [
                 {
-                    "name": "Samuel Štancl",
+                    "name": "Samuel \u0160tancl",
                     "email": "samuel.stancl@gmail.com"
                 }
             ],
@@ -12131,7 +12131,7 @@
             ],
             "authors": [
                 {
-                    "name": "Samuel Štancl",
+                    "name": "Samuel \u0160tancl",
                     "email": "samuel.stancl@gmail.com"
                 }
             ],
@@ -12191,7 +12191,7 @@
             ],
             "authors": [
                 {
-                    "name": "Samuel Štancl",
+                    "name": "Samuel \u0160tancl",
                     "email": "samuel.stancl@gmail.com"
                 }
             ],
@@ -12760,7 +12760,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-François Simon",
+                    "name": "Jean-Fran\u00e7ois Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -14243,7 +14243,7 @@
             ],
             "authors": [
                 {
-                    "name": "Grégoire Pineau",
+                    "name": "Gr\u00e9goire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -14798,7 +14798,7 @@
             ],
             "authors": [
                 {
-                    "name": "Grégoire Pineau",
+                    "name": "Gr\u00e9goire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -15033,7 +15033,7 @@
                     "name": "Fredrik Liljegren"
                 },
                 {
-                    "name": "Sören Jensen",
+                    "name": "S\u00f6ren Jensen",
                     "email": "soren@abicart.se"
                 }
             ],
@@ -16961,72 +16961,6 @@
             "time": "2024-09-18T10:13:27+00:00"
         },
         {
-            "name": "tomatophp/filament-tenancy",
-            "version": "v1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tomatophp/filament-tenancy.git",
-                "reference": "adda44b45e5dbc9bc5a0e7f1ebc0f8257b199e0a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tomatophp/filament-tenancy/zipball/adda44b45e5dbc9bc5a0e7f1ebc0f8257b199e0a",
-                "reference": "adda44b45e5dbc9bc5a0e7f1ebc0f8257b199e0a",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^3.0",
-                "php": "^8.1|^8.2",
-                "stancl/tenancy": "^3.8",
-                "tomatophp/console-helpers": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "TomatoPHP\\FilamentTenancy\\FilamentTenancyServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TomatoPHP\\FilamentTenancy\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fady Mondy",
-                    "email": "info@3x1.io"
-                }
-            ],
-            "description": "Tenancy multi-database integration for FilamentPHP",
-            "keywords": [
-                "filament-plugins",
-                "filamentphp",
-                "laravel",
-                "multi-database",
-                "multi-tenancy",
-                "php",
-                "tenancy",
-                "tomatophp"
-            ],
-            "support": {
-                "issues": "https://github.com/tomatophp/filament-tenancy/issues",
-                "source": "https://github.com/tomatophp/filament-tenancy/tree/v1.0.7"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/3x1io",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-11-11T14:47:31+00:00"
-        },
-        {
             "name": "tomatophp/filament-translation-component",
             "version": "v1.0.3",
             "source": {
@@ -17460,7 +17394,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérôme Gamez",
+                    "name": "J\u00e9r\u00f4me Gamez",
                     "email": "jerome@gamez.name"
                 }
             ],
@@ -18542,7 +18476,7 @@
             ],
             "authors": [
                 {
-                    "name": "François Zaninotto"
+                    "name": "Fran\u00e7ois Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -18597,7 +18531,7 @@
             ],
             "authors": [
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Th\u00e9o FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -19038,7 +18972,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "P\u00e1draic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "https://github.com/padraic",
                     "role": "Author"
@@ -21271,6 +21205,6 @@
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
