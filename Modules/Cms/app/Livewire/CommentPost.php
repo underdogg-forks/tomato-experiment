@@ -24,6 +24,8 @@ class CommentPost extends Component implements HasActions, HasForms
 
     public ?Post $post = null;
 
+    public Form $form;
+
     public function mount(Post $post)
     {
         $this->post = $post;
@@ -116,7 +118,9 @@ class CommentPost extends Component implements HasActions, HasForms
                     'is_active' => 1,
                 ]);
 
-                auth('accounts')->user()->log($this->post, 'comment', $data['comment']);
+                if (auth('accounts')->user()) {
+                    auth('accounts')->user()->log($this->post, 'comment', $data['comment']);
+                }
 
                 $this->form->fill([
                     'comment' => '',

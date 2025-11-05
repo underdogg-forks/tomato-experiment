@@ -8,6 +8,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Notifications\Notification;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -296,5 +298,20 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         }
 
         return $this->logs()->create($data);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return true;
+    }
+
+    public function getTenants(Panel $panel): array|Collection
+    {
+        return [];
     }
 }

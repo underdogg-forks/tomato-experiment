@@ -22,3 +22,6 @@ yarn-error.log
 /.vscode
 /google.json
 /tomato-google.json
+/stan.txt
+/phpunit.txt
+/todo.txt
