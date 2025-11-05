@@ -29,13 +29,13 @@
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
             <div>
                 <p class="small text-muted">
-                    {!! trans('Showing') !!}
+                    {!! trans('tomato.pagination.showing') !!}
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! trans('to') !!}
+                    {!! trans('tomato.pagination.to') !!}
                     <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! trans('of') !!}
+                    {!! trans('tomato.pagination.of') !!}
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! trans('results') !!}
+                    {!! trans('tomato.pagination.results') !!}
                 </p>
             </div>
 
