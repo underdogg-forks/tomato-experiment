@@ -144,11 +144,13 @@ class RegisterDemo extends Component implements HasActions, HasForms
                     return;
                 }
                 if ($data['loginBy'] === 'register') {
-                    $otp            = mb_substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+                    $otp            = mb_substr(number_format(time() * mt_rand(), 0, '', ''), 0, 6);
                     $data['id']     = Str::of($data['name'])->slug('_')->toString();
                     $data['domain'] = Str::of($data['name'])->slug()->toString();
-                    session()->put('demo_user', json_encode($data));
-                    session()->put('demo_otp', $otp);
+                    if (session()) {
+                        session()->put('demo_user', json_encode($data));
+                        session()->put('demo_otp', $otp);
+                    }
 
                     Notification::make()
                         ->title('New Demo User')
@@ -191,7 +193,9 @@ class RegisterDemo extends Component implements HasActions, HasForms
                     return redirect()->route('verify.otp');
                 }
 
-                session()->put('demo_user', json_encode($data));
+                if (session()) {
+                    session()->put('demo_user', json_encode($data));
+                }
 
                 return redirect()->route('login.provider', ['provider' => $data['loginBy']]);
             });
@@ -270,7 +274,9 @@ class RegisterDemo extends Component implements HasActions, HasForms
 
                     if ($record) {
                         if (Hash::check($data['password'], $record->password)) {
-                            session()->regenerate();
+                            if (session()) {
+                                session()->regenerate();
+                            }
 
                             $token = tenancy()->impersonate($record, 1, '/app', 'web');
 

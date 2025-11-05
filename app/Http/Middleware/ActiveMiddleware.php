@@ -20,9 +20,11 @@ class ActiveMiddleware
                 if (tenancy()->tenant->is_active) {
                     return $next($request);
                 }
-
                 abort(503, 'Tenant is not active');
             }
         }
+
+        // Ensure a Response is always returned
+        return $next($request);
     }
 }

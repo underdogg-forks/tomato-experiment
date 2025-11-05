@@ -1,0 +1,121 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property App\\Filament\\Apps\\Pages\\EditProfile\:\:\$editPasswordForm\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Apps/Pages/EditProfile.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Apps\\Pages\\EditProfile\:\:\$editProfileForm\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Apps/Pages/EditProfile.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Apps\\Pages\\EditProfile\:\:\$editPublicProfile\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Apps/Pages/EditProfile.php
+
+		-
+			message: '#^Call to an undefined static method App\\Models\\Tenant\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Filament/Apps/Resources/DemosResource/Pages/ListDemos.php
+
+		-
+			message: '#^Call to an undefined static method App\\Models\\Account\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Controllers/AuthController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Facades\\Twitter\:\:tweet\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Jobs/TweetNewIssue.php
+
+		-
+			message: '#^Call to an undefined static method App\\Models\\SocialPost\:\:firstOrNew\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Jobs/TweetNewIssue.php
+
+		-
+			message: '#^Access to an undefined property App\\Livewire\\Login\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Livewire/Login.php
+
+		-
+			message: '#^Access to an undefined property App\\Livewire\\Register\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Livewire/Register.php
+
+		-
+			message: '#^Call to static method of\(\) on an unknown class Str\.$#'
+			identifier: class.notFound
+			count: 5
+			path: app/Livewire/Register.php
+
+		-
+			message: '#^Access to an undefined property App\\Livewire\\RegisterOtp\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Livewire/RegisterOtp.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Like\:\:\$post\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Like.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\SocialPost\:\:\$twitter_sent_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/SocialPost.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$profile_photo_path\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Call to an undefined static method TomatoPHP\\FilamentCms\\Models\\Post\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Providers/helpers.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/TomatoPHP/FilamentAccounts/FilamentAccountsPlugin.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/TomatoPHP/FilamentAccounts/FilamentAccountsSaaSPlugin.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/TomatoPHP/FilamentTenancy/FilamentTenancyAppPlugin.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/TomatoPHP/FilamentTenancy/FilamentTenancyPlugin.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: app/TomatoPHP/FilamentUsers/FilamentUsersPlugin.php
