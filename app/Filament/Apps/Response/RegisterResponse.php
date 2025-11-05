@@ -11,6 +11,7 @@ class RegisterResponse implements RegistrationResponse
 {
     /**
      * @param $request
+     *
      * @return RedirectResponse|Response|Redirector
      */
     public function toResponse($request): RedirectResponse|Response|Redirector

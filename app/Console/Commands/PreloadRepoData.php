@@ -29,7 +29,7 @@ final class PreloadRepoData extends Command
             })
             ->all();
 
-        $this->components->info('Dispatching '.count($batches).' jobs in a batch to find repos.');
+        $this->components->info('Dispatching ' . count($batches) . ' jobs in a batch to find repos.');
 
         Bus::batch($batches)
             ->then(function (): void {

@@ -8,7 +8,7 @@ return [
     ],
 
     'impersonation' => [
-        'guard' => 'web',
+        'guard'       => 'web',
         'redirect_to' => '/app',
     ],
 

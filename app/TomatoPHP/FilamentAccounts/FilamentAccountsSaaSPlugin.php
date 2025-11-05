@@ -2,10 +2,10 @@
 
 namespace TomatoPHP\FilamentAccounts;
 
+use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Panel\Plugin;
 
-class FilamentAccountsSaaSPlugin extends Plugin
+class FilamentAccountsSaaSPlugin implements Plugin
 {
     protected bool $registerProfilePage = true;
 
@@ -28,6 +28,7 @@ class FilamentAccountsSaaSPlugin extends Plugin
 
     /**
      * @param Panel $panel
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function register(Panel $panel): void
@@ -39,6 +40,7 @@ class FilamentAccountsSaaSPlugin extends Plugin
 
     /**
      * @param Panel $panel
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function boot(Panel $panel): void

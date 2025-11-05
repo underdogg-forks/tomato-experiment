@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Facade;
  */
 final class Twitter extends Facade
 {
-    protected static function getFacadeAccessor(): string
-    {
-        return TwitterInterface::class;
-    }
-
     public static function fake(): void
     {
         self::swap(new TwitterFake());
+    }
+
+    protected static function getFacadeAccessor(): string
+    {
+        return TwitterInterface::class;
     }
 }

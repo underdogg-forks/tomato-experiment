@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentPayments\Models\Payment;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentPayments\Models\Payment;
 
 class PaymentPolicy
 {

@@ -2,10 +2,10 @@
 
 namespace TomatoPHP\FilamentTenancy;
 
+use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Panel\Plugin;
 
-class FilamentTenancyAppPlugin extends Plugin
+class FilamentTenancyAppPlugin implements Plugin
 {
     public static function make(): static
     {

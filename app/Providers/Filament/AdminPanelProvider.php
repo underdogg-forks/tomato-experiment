@@ -25,6 +25,7 @@ use TomatoPHP\FilamentCms\FilamentCMSPlugin;
 use TomatoPHP\FilamentDocs\FilamentDocsPlugin;
 use TomatoPHP\FilamentFcm\FilamentFcmPlugin;
 use TomatoPHP\FilamentIssues\FilamentIssuesPlugin;
+use TomatoPHP\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use TomatoPHP\FilamentLogger\FilamentLoggerPlugin;
 use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use TomatoPHP\FilamentMenus\FilamentMenusPlugin;
@@ -33,10 +34,8 @@ use TomatoPHP\FilamentNotes\FilamentNotesPlugin;
 use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
 use TomatoPHP\FilamentSeo\FilamentSeoPlugin;
 use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
-use TomatoPHP\FilamentSubscriptions\FilamentSubscriptionsProvider;
 use TomatoPHP\FilamentTenancy\FilamentTenancyPlugin;
 use TomatoPHP\FilamentTranslations\FilamentTranslationsPlugin;
-use TomatoPHP\FilamentTranslations\FilamentTranslationsSwitcherPlugin;
 use TomatoPHP\FilamentTypes\FilamentTypesPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
@@ -51,9 +50,9 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->colors([
-                'danger' => Color::Red,
-                'gray' => Color::Slate,
-                'info' => Color::Blue,
+                'danger'  => Color::Red,
+                'gray'    => Color::Slate,
+                'info'    => Color::Blue,
                 'primary' => Color::Rose,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
@@ -92,7 +91,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentTypesPlugin::make(),
                 FilamentMenusPlugin::make(),
-                FilamentTranslationsSwitcherPlugin::make(),
+                FilamentLanguageSwitcherPlugin::make(),
                 FilamentUsersPlugin::make(),
                 FilamentShieldPlugin::make(),
                 FilamentFcmPlugin::make(),
@@ -109,15 +108,12 @@ class AdminPanelProvider extends PanelProvider
             )
             ->plugin(
                 FilamentTranslationsPlugin::make()
-                    ->allowGPTScan()
-                    ->allowGoogleTranslateScan()
-                    ->allowCreate()
                     ->allowCreate(),
             )
             ->plugin(
                 FilamentAlertsPlugin::make()
                     ->models([
-                        \App\Models\User::class => 'Admins',
+                        \App\Models\User::class    => 'Admins',
                         \App\Models\Account::class => 'Accounts',
                     ])
                     ->useDiscord()
@@ -142,15 +138,6 @@ class AdminPanelProvider extends PanelProvider
             )
             ->plugin(
                 FilamentAccountsPlugin::make()
-                    ->useImpersonate()
-                    ->impersonateRedirect('user')
-                    ->useContactUs()
-                    ->useTypes()
-                    ->showTypeField()
-                    ->useAvatar()
-                    ->useNotifications()
-                    ->canLogin()
-                    ->canBlocked(),
             )
             ->plugin(
                 FilamentLoggerPlugin::make()
@@ -164,7 +151,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 FilamentDocsPlugin::make()
             )
-            ->navigation(function (NavigationBuilder $builder){
+            ->navigation(function (NavigationBuilder $builder) {
                 return $builder->items(FilamentMenuLoader::make('dashboard'));
             })
             ->middleware([

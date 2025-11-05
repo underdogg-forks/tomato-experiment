@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentTranslations\Models\Translation;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentTranslations\Models\Translation;
 
 class TranslationPolicy
 {

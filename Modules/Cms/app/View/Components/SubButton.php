@@ -16,10 +16,7 @@ class SubButton extends Component
         public ?string $icon = null,
         public ?string $url = null,
         public ?bool $away = false,
-    )
-    {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

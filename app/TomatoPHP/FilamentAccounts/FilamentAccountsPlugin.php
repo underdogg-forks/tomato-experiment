@@ -2,10 +2,10 @@
 
 namespace TomatoPHP\FilamentAccounts;
 
+use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Panel\Plugin;
 
-class FilamentAccountsPlugin extends Plugin
+class FilamentAccountsPlugin implements Plugin
 {
     public static function make(): static
     {
@@ -15,6 +15,16 @@ class FilamentAccountsPlugin extends Plugin
     public function getId(): string
     {
         return 'filament-accounts';
+    }
+
+    public function canLogin(): self
+    {
+        return $this;
+    }
+
+    public function canBlocked(): self
+    {
+        return $this;
     }
 
     public function register(Panel $panel): void

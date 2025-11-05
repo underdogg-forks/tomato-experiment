@@ -2,10 +2,10 @@
 
 namespace TomatoPHP\FilamentUsers;
 
+use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Panel\Plugin;
 
-class FilamentUsersPlugin extends Plugin
+class FilamentUsersPlugin implements Plugin
 {
     public static function make(): static
     {

@@ -36,7 +36,7 @@ final readonly class IssueService
      */
     public function getIssuesForRepo(Repository $repo, bool $forceRefresh = false): array
     {
-        $cacheKey = $repo->owner.'/'.$repo->name;
+        $cacheKey = $repo->owner . '/' . $repo->name;
 
         if ($forceRefresh) {
             Cache::forget($cacheKey);
@@ -55,13 +55,13 @@ final readonly class IssueService
 
     private function parseIssue(Repository $repo, array $fetchedIssue): Issue
     {
-        $repoName = $repo->owner.'/'.$repo->name;
+        $repoName = $repo->owner . '/' . $repo->name;
 
         return new Issue(
             id: $fetchedIssue['id'],
             number: $fetchedIssue['number'],
             repoName: $repoName,
-            repoUrl: 'https://github.com/'.$repoName,
+            repoUrl: 'https://github.com/' . $repoName,
             title: $fetchedIssue['title'],
             url: $fetchedIssue['html_url'],
             body: $fetchedIssue['body'],
@@ -90,7 +90,7 @@ final readonly class IssueService
     private function getIssueOwner(array $fetchedIssue): IssueOwner
     {
         // Set avatar size to 48px
-        $fetchedIssue['user']['avatar_url'] .= (parse_url($fetchedIssue['user']['avatar_url'], PHP_URL_QUERY) ? '&' : '?').'s=48';
+        $fetchedIssue['user']['avatar_url'] .= (parse_url($fetchedIssue['user']['avatar_url'], PHP_URL_QUERY) ? '&' : '?') . 's=48';
 
         return new IssueOwner(
             name: $fetchedIssue['user']['login'],
@@ -105,7 +105,7 @@ final readonly class IssueService
             ->map(function (array $label): Label {
                 return new Label(
                     name: $label['name'],
-                    color: '#'.$label['color'],
+                    color: '#' . $label['color'],
                 );
             })->toArray();
     }
@@ -134,13 +134,13 @@ final readonly class IssueService
      */
     private function getIssuesFromGitHubApi(Repository $repo): array
     {
-        $fullRepoName = $repo->owner.'/'.$repo->name;
+        $fullRepoName = $repo->owner . '/' . $repo->name;
 
         $result = app(GitHub::class)
             ->client()
-            ->get('repos/'.$fullRepoName.'/issues');
+            ->get('repos/' . $fullRepoName . '/issues');
 
-        if (! $result->successful()) {
+        if ( ! $result->successful()) {
             return $this->handleUnsuccessfulIssueRequest($result, $fullRepoName);
         }
 
@@ -157,15 +157,15 @@ final readonly class IssueService
     private function handleUnsuccessfulIssueRequest(Response $response, string $fullRepoName): array
     {
         return match ($response->status()) {
-            404 => $this->handleNotFoundResponse($fullRepoName),
-            403 => $this->handleForbiddenResponse($response, $fullRepoName),
+            404     => $this->handleNotFoundResponse($fullRepoName),
+            403     => $this->handleForbiddenResponse($response, $fullRepoName),
             default => [],
         };
     }
 
     private function handleNotFoundResponse(string $fullRepoName): array
     {
-        report($fullRepoName.' is not a valid GitHub repo.');
+        report($fullRepoName . ' is not a valid GitHub repo.');
 
         return [];
     }
@@ -179,7 +179,7 @@ final readonly class IssueService
             throw new GitHubRateLimitException('GitHub API rate limit reached!');
         }
 
-        report($fullRepoName.' is a forbidden GitHub repo.');
+        report($fullRepoName . ' is a forbidden GitHub repo.');
 
         return [];
     }

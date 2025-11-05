@@ -3,9 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\ActiveMiddleware;
-use App\Providers\TenancyServiceProvider;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Filament\Facades\Filament;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -22,8 +20,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Modules\Core\Plugins\CorePlugin;
-use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use TomatoPHP\FilamentAccounts\FilamentAccountsPlugin;
 use TomatoPHP\FilamentAlerts\FilamentAlertsPlugin;
@@ -34,6 +30,7 @@ use TomatoPHP\FilamentEcommerce\FilamentEcommercePlugin;
 use TomatoPHP\FilamentEmployees\FilamentEmployeesPlugin;
 use TomatoPHP\FilamentFcm\FilamentFcmPlugin;
 use TomatoPHP\FilamentInvoices\FilamentInvoicesPlugin;
+use TomatoPHP\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use TomatoPHP\FilamentLocations\FilamentLocationsPlugin;
 use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use TomatoPHP\FilamentMenus\FilamentMenusPlugin;
@@ -42,13 +39,10 @@ use TomatoPHP\FilamentPayments\FilamentPaymentsPlugin;
 use TomatoPHP\FilamentPos\FilamentPOSPlugin;
 use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
 use TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin;
-use TomatoPHP\FilamentSimpleTheme\FilamentSimpleThemePlugin;
 use TomatoPHP\FilamentSubscriptions\Filament\Pages\Billing;
 use TomatoPHP\FilamentSubscriptions\FilamentSubscriptionsPlugin;
-use TomatoPHP\FilamentSubscriptions\FilamentSubscriptionsProvider;
 use TomatoPHP\FilamentTenancy\FilamentTenancyAppPlugin;
 use TomatoPHP\FilamentTranslations\FilamentTranslationsPlugin;
-use TomatoPHP\FilamentTranslations\FilamentTranslationsSwitcherPlugin;
 use TomatoPHP\FilamentTypes\FilamentTypesPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 use TomatoPHP\FilamentWallet\FilamentWalletPlugin;
@@ -65,9 +59,9 @@ class AppPanelProvider extends PanelProvider
             ->profile()
             ->databaseNotifications()
             ->colors([
-                'danger' => Color::Red,
-                'gray' => Color::Slate,
-                'info' => Color::Blue,
+                'danger'  => Color::Red,
+                'gray'    => Color::Slate,
+                'info'    => Color::Blue,
                 'primary' => Color::Rose,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
@@ -84,7 +78,7 @@ class AppPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Pages\Dashboard::class,
-                Billing::class
+                Billing::class,
             ])
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
@@ -95,7 +89,7 @@ class AppPanelProvider extends PanelProvider
                 FilamentAPIPlugin::make(),
                 FilamentTypesPlugin::make(),
                 FilamentMenusPlugin::make(),
-                FilamentTranslationsSwitcherPlugin::make(),
+                FilamentLanguageSwitcherPlugin::make(),
                 FilamentLocationsPlugin::make(),
                 FilamentUsersPlugin::make(),
                 FilamentShieldPlugin::make(),
@@ -108,7 +102,7 @@ class AppPanelProvider extends PanelProvider
                 FilamentInvoicesPlugin::make(),
                 FilamentPaymentsPlugin::make(),
                 FilamentSubscriptionsPlugin::make(),
-                FilamentEmployeesPlugin::make()
+                FilamentEmployeesPlugin::make(),
             ])
             ->plugin(
                 FilamentSettingsHubPlugin::make()
@@ -121,9 +115,6 @@ class AppPanelProvider extends PanelProvider
             )
             ->plugin(
                 FilamentTranslationsPlugin::make()
-                    ->allowGPTScan()
-                    ->allowGoogleTranslateScan()
-                    ->allowCreate()
                     ->allowCreate(),
             )
             ->plugin(
@@ -150,17 +141,6 @@ class AppPanelProvider extends PanelProvider
             )
             ->plugin(
                 FilamentAccountsPlugin::make()
-                    ->useContactUs()
-                    ->useAPIs()
-                    ->showAddressField()
-                    ->showTypeField()
-                    ->useTeams()
-                    ->useTypes()
-                    ->useRequests()
-                    ->useAvatar()
-                    ->useNotifications()
-                    ->useLocations()
-                    ->useLoginBy()
                     ->canLogin()
                     ->canBlocked(),
             )
@@ -188,7 +168,7 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                ActiveMiddleware::class
+                ActiveMiddleware::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -199,5 +179,4 @@ class AppPanelProvider extends PanelProvider
 
         return $panel;
     }
-
 }

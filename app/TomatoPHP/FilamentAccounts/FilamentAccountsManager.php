@@ -7,11 +7,9 @@ use Illuminate\Contracts\Support\Arrayable;
 class FilamentAccountsManager implements Arrayable
 {
     /**
-     * @param  array<string, mixed>  $configuration
+     * @param array<string, mixed> $configuration
      */
-    public function __construct(protected array $configuration = [])
-    {
-    }
+    public function __construct(protected array $configuration = []) {}
 
     /**
      * Get the configured features for the inline package.
@@ -36,7 +34,7 @@ class FilamentAccountsManager implements Arrayable
     /**
      * Update runtime configuration for downstream consumers.
      *
-     * @param  array<string, mixed>  $configuration
+     * @param array<string, mixed> $configuration
      */
     public function update(array $configuration): void
     {

@@ -25,6 +25,6 @@ final class SocialPost extends Model
 
     public function tweetWasSent(): bool
     {
-        return ! is_null($this->twitter_sent_at);
+        return null !== $this->twitter_sent_at;
     }
 }

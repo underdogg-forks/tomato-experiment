@@ -2,10 +2,10 @@
 
 namespace TomatoPHP\FilamentTenancy;
 
+use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Filament\Panel\Plugin;
 
-class FilamentTenancyPlugin extends Plugin
+class FilamentTenancyPlugin implements Plugin
 {
     protected bool $impersonation = false;
 

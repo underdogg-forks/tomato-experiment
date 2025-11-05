@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentLocations\Models\City;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentLocations\Models\City;
 
 class CityPolicy
 {

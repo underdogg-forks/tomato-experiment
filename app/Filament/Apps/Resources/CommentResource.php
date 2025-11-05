@@ -3,26 +3,20 @@
 namespace App\Filament\Apps\Resources;
 
 use App\Filament\Apps\Resources\CommentResource\Pages;
-use App\Filament\Apps\Resources\CommentResource\RelationManagers;
 use App\Models\Account;
-use App\Models\Like;
-use Filament\Forms;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use TomatoPHP\FilamentCms\Models\Comment;
-use TomatoPHP\FilamentTypes\Components\TypeColumn;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-
 
     public static function getNavigationLabel(): string
     {
@@ -45,7 +39,7 @@ class CommentResource extends Resource
             MarkdownEditor::make('comment')
                 ->label(trans('cms::messages.comments.comment'))
                 ->columnSpanFull()
-                ->required()
+                ->required(),
         ]);
     }
 
@@ -59,13 +53,13 @@ class CommentResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('content.title')
                     ->label(trans('cms::messages.comments.post'))
-                    ->url(fn($record) => $record->content->type === 'open-source' ? url(app()->getLocale() . '/open-source/' . $record->content->slug) : url(app()->getLocale() . '/blog/' . $record->content->slug))
+                    ->url(fn ($record) => $record->content->type === 'open-source' ? url(app()->getLocale() . '/open-source/' . $record->content->slug) : url(app()->getLocale() . '/blog/' . $record->content->slug))
                     ->openUrlInNewTab()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('comment')
                     ->label(trans('cms::messages.comments.comment'))
-                    ->state(fn($record) => str($record->comment)->limit(50))
+                    ->state(fn ($record) => str($record->comment)->limit(50))
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label(trans('cms::messages.comments.comment'))
@@ -81,7 +75,6 @@ class CommentResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

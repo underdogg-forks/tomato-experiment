@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentAccounts\Models\Team;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentAccounts\Models\Team;
 
 class TeamPolicy
 {

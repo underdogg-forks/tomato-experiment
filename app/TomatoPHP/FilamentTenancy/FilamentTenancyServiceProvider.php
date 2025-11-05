@@ -13,24 +13,24 @@ class FilamentTenancyServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/config/filament-tenancy.php', 'filament-tenancy');
+        $this->mergeConfigFrom(__DIR__ . '/config/filament-tenancy.php', 'filament-tenancy');
     }
 
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/config/filament-tenancy.php' => config_path('filament-tenancy.php'),
+            __DIR__ . '/config/filament-tenancy.php' => config_path('filament-tenancy.php'),
         ], 'filament-tenancy-config');
 
         $this->publishes([
-            __DIR__.'/resources/lang' => lang_path('vendor/filament-tenancy'),
+            __DIR__ . '/resources/lang' => lang_path('vendor/filament-tenancy'),
         ], 'filament-tenancy-translations');
 
-        if (is_dir(__DIR__.'/database/migrations')) {
-            $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        if (is_dir(__DIR__ . '/database/migrations')) {
+            $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         }
 
-        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'filament-tenancy');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'filament-tenancy');
 
         $this->registerMiddleware();
     }

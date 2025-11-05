@@ -13,26 +13,24 @@ class QuickMenu extends Component
         $this->resources = [
             [
                 'label' => 'Docs',
-                'icon' => 'bxs-file-doc',
-                'url' => 'https://tomatophp.com/en/open-source'
+                'icon'  => 'bxs-file-doc',
+                'url'   => 'https://tomatophp.com/en/open-source',
             ],
             [
                 'label' => 'Github',
-                'icon' => 'bxl-github',
-                'url' => 'https://www.github.com/tomatophp'
+                'icon'  => 'bxl-github',
+                'url'   => 'https://www.github.com/tomatophp',
             ],
             [
                 'label' => 'Discord',
-                'icon' => 'bxl-discord',
-                'url' => 'https://discord.gg/vKV9U7gD3c'
+                'icon'  => 'bxl-discord',
+                'url'   => 'https://discord.gg/vKV9U7gD3c',
             ],
             [
                 'label' => 'Buy Me a Coffee',
-                'icon' => 'bxs-coffee',
-                'url' => 'https://github.com/sponsors/3x1io'
-            ]
-
-
+                'icon'  => 'bxs-coffee',
+                'url'   => 'https://github.com/sponsors/3x1io',
+            ],
         ];
     }
 

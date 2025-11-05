@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\Account;
-use App\Models\User;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenantPolicy
@@ -16,7 +16,7 @@ class TenantPolicy
      */
     public function viewAny(User|Account $user): bool
     {
-        return  $user instanceof  Account ?:  $user->can('view_any_tenant');
+        return  $user instanceof  Account ?: $user->can('view_any_tenant');
     }
 
     /**
@@ -24,7 +24,7 @@ class TenantPolicy
      */
     public function view(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('view_tenant');
+        return $user instanceof  Account ?: $user->can('view_tenant');
     }
 
     /**
@@ -32,7 +32,7 @@ class TenantPolicy
      */
     public function create(User|Account $user): bool
     {
-        return $user instanceof  Account ?:  $user->can('create_tenant');
+        return $user instanceof  Account ?: $user->can('create_tenant');
     }
 
     /**
@@ -40,7 +40,7 @@ class TenantPolicy
      */
     public function update(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('update_tenant');
+        return $user instanceof  Account ?: $user->can('update_tenant');
     }
 
     /**
@@ -48,7 +48,7 @@ class TenantPolicy
      */
     public function delete(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('delete_tenant');
+        return $user instanceof  Account ?: $user->can('delete_tenant');
     }
 
     /**
@@ -56,7 +56,7 @@ class TenantPolicy
      */
     public function deleteAny(User|Account $user): bool
     {
-        return $user instanceof  Account ?:  $user->can('delete_any_tenant');
+        return $user instanceof  Account ?: $user->can('delete_any_tenant');
     }
 
     /**
@@ -64,7 +64,7 @@ class TenantPolicy
      */
     public function forceDelete(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('force_delete_tenant');
+        return $user instanceof  Account ?: $user->can('force_delete_tenant');
     }
 
     /**
@@ -72,7 +72,7 @@ class TenantPolicy
      */
     public function forceDeleteAny(User|Account $user): bool
     {
-        return $user instanceof  Account ?:  $user->can('force_delete_any_tenant');
+        return $user instanceof  Account ?: $user->can('force_delete_any_tenant');
     }
 
     /**
@@ -80,7 +80,7 @@ class TenantPolicy
      */
     public function restore(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('restore_tenant');
+        return $user instanceof  Account ?: $user->can('restore_tenant');
     }
 
     /**
@@ -88,7 +88,7 @@ class TenantPolicy
      */
     public function restoreAny(User|Account $user): bool
     {
-        return $user instanceof  Account ?:  $user->can('restore_any_tenant');
+        return $user instanceof  Account ?: $user->can('restore_any_tenant');
     }
 
     /**
@@ -96,7 +96,7 @@ class TenantPolicy
      */
     public function replicate(User|Account $user, Tenant $tenant): bool
     {
-        return $user instanceof  Account ?:  $user->can('replicate_tenant');
+        return $user instanceof  Account ?: $user->can('replicate_tenant');
     }
 
     /**
@@ -104,6 +104,6 @@ class TenantPolicy
      */
     public function reorder(User|Account $user): bool
     {
-        return $user instanceof  Account ?:  $user->can('reorder_tenant');
+        return $user instanceof  Account ?: $user->can('reorder_tenant');
     }
 }

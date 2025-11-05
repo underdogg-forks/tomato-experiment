@@ -11,16 +11,11 @@ final readonly class Repository implements Wireable
     public function __construct(
         public string $owner,
         public string $name,
-    ) {
-        //
-    }
+    ) {}
 
-    public function toLivewire()
+    public function __toString(): string
     {
-        return [
-            'owner' => $this->owner,
-            'name' => $this->name,
-        ];
+        return $this->owner . '/' . $this->name;
     }
 
     public static function fromLivewire($value)
@@ -31,8 +26,11 @@ final readonly class Repository implements Wireable
         );
     }
 
-    public function __toString(): string
+    public function toLivewire()
     {
-        return $this->owner.'/'.$this->name;
+        return [
+            'owner' => $this->owner,
+            'name'  => $this->name,
+        ];
     }
 }

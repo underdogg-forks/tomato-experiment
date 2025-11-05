@@ -17,13 +17,17 @@ trait HasEditPassword
             ->schema([
                 TextInput::make('current_password')
                     ->password()
+                    ->required()
                     ->label(trans('filament-accounts::messages.profile.password.current')),
                 TextInput::make('password')
                     ->password()
+                    ->required()
+                    ->minLength(8)
                     ->same('password_confirmation')
                     ->label(trans('filament-accounts::messages.profile.password.new')),
                 TextInput::make('password_confirmation')
                     ->password()
+                    ->required()
                     ->label(trans('filament-accounts::messages.profile.password.confirmation')),
             ])
             ->statePath('passwordData');

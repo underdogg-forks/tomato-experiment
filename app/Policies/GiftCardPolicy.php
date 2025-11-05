@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentEcommerce\Models\GiftCard;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentEcommerce\Models\GiftCard;
 
 class GiftCardPolicy
 {

@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentEmployees\Models\AttendanceShift;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentEmployees\Models\AttendanceShift;
 
 class AttendanceShiftPolicy
 {

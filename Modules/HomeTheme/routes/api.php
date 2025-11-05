@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Modules\HomeTheme\Http\Controllers\HomeThemeController;
-
 /*
  *--------------------------------------------------------------------------
  * API Routes

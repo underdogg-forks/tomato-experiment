@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentWallet\Models\Transaction;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentWallet\Models\Transaction;
 
 class TransactionPolicy
 {

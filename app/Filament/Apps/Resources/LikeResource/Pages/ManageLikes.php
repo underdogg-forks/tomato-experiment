@@ -3,7 +3,6 @@
 namespace App\Filament\Apps\Resources\LikeResource\Pages;
 
 use App\Filament\Apps\Resources\LikeResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageLikes extends ManageRecords
@@ -13,7 +12,6 @@ class ManageLikes extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-
         ];
     }
 }

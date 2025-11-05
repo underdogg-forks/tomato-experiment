@@ -24,12 +24,9 @@ final class EnsureRepoIsCrawlable implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @param  Collection<Repository>  $repos
+     * @param Collection<Repository> $repos
      */
-    public function __construct(private Collection $repos)
-    {
-        //
-    }
+    public function __construct(private Collection $repos) {}
 
     public function handle(RepoService $repoService): void
     {

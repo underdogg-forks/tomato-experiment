@@ -12,22 +12,12 @@ final readonly class Label implements Wireable
     public function __construct(
         public string $name,
         public string $color,
-    ) {
-        //
-    }
-
-    public function toLivewire()
-    {
-        return [
-            'name' => $this->name,
-            'color' => $this->color,
-        ];
-    }
+    ) {}
 
     public static function fromLivewire($value)
     {
         return self::fromArray([
-            'name' => $value['name'],
+            'name'  => $value['name'],
             'color' => $value['color'],
         ]);
     }
@@ -43,5 +33,13 @@ final readonly class Label implements Wireable
             $labels,
             static fn (array $label): Label => self::fromArray($label)
         );
+    }
+
+    public function toLivewire()
+    {
+        return [
+            'name'  => $this->name,
+            'color' => $this->color,
+        ];
     }
 }

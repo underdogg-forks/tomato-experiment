@@ -2,6 +2,4 @@
 
 namespace TomatoPHP\FilamentTenancy\Models;
 
-class Tenant extends \App\Models\Tenant
-{
-}
+class Tenant extends \App\Models\Tenant {}

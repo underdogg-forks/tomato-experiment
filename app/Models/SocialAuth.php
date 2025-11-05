@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tenant;
 
 class SocialAuth extends Model
 {
@@ -13,7 +12,7 @@ class SocialAuth extends Model
     protected $fillable = [
         'tenant_id',
         'provider',
-        'provider_id'
+        'provider_id',
     ];
 
     public function tenant()

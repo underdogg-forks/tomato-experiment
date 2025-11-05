@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentWithdrawals\Models\WithdrawalRequest;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentWithdrawals\Models\WithdrawalRequest;
 
 class WithdrawalRequestPolicy
 {

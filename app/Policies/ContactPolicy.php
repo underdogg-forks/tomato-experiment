@@ -105,5 +105,4 @@ class ContactPolicy
     {
         return $user->can('reorder_contact');
     }
-
 }

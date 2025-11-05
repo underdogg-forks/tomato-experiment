@@ -8,7 +8,7 @@ use TomatoPHP\FilamentAccounts\FilamentAccountsManager;
 /**
  * @method static array features()
  * @method static array configuration()
- * @method static void update(array $configuration)
+ * @method static void  update(array $configuration)
  */
 class FilamentAccounts extends Facade
 {

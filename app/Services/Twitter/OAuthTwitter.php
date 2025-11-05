@@ -9,7 +9,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 final readonly class OAuthTwitter implements TwitterInterface
 {
     public function __construct(
-        protected TwitterOAuth $twitter,
+        private TwitterOAuth $twitter,
     ) {
         $this->twitter->setApiVersion('2');
     }

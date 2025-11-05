@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\TenancyServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Modules\HomeTheme\Http\Controllers\HomeThemeController;
 

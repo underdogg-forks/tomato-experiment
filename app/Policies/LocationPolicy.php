@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentLocations\Models\Location;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentLocations\Models\Location;
 
 class LocationPolicy
 {

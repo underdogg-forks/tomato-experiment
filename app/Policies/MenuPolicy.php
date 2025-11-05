@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentMenus\Models\Menu;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentMenus\Models\Menu;
 
 class MenuPolicy
 {

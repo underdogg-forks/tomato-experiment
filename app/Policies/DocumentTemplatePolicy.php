@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentDocs\Models\DocumentTemplate;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentDocs\Models\DocumentTemplate;
 
 class DocumentTemplatePolicy
 {

@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentSubscriptions\Models\Subscription;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentSubscriptions\Models\Subscription;
 
 class SubscriptionPolicy
 {

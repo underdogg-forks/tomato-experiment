@@ -21,11 +21,11 @@ class LoginUrl extends Controller
 
         $tenant = tenancy()->tenant;
 
-        $user = User::query()->firstOrNew(['email' => $tenant->email]);
-        $user->name = $tenant->name;
-        $user->email = $tenant->email;
-        $user->packages = $tenant->packages;
-        $user->password = $tenant->password;
+        $user                    = User::query()->firstOrNew(['email' => $tenant->email]);
+        $user->name              = $tenant->name;
+        $user->email             = $tenant->email;
+        $user->packages          = $tenant->packages;
+        $user->password          = $tenant->password;
         $user->email_verified_at = $user->email_verified_at ?: Carbon::now();
         $user->save();
 
@@ -37,13 +37,13 @@ class LoginUrl extends Controller
     protected function syncPermissions(User $user): void
     {
         $packageKeys = json_decode($user->packages, true) ?: [];
-        if (! is_array($packageKeys) || empty($packageKeys)) {
+        if ( ! is_array($packageKeys) || empty($packageKeys)) {
             return;
         }
 
         $permissions = [];
         foreach (config('app.packages', []) as $key => $package) {
-            if (! in_array($key, $packageKeys, true)) {
+            if ( ! in_array($key, $packageKeys, true)) {
                 continue;
             }
 
@@ -57,7 +57,7 @@ class LoginUrl extends Controller
         }
 
         $role = Role::query()->firstOrCreate([
-            'name' => 'super_admin',
+            'name'       => 'super_admin',
             'guard_name' => 'web',
         ]);
 
@@ -65,7 +65,7 @@ class LoginUrl extends Controller
         $user->roles()->sync($role->id);
 
         if ($tenantName = optional(tenancy()->tenant)->name) {
-            $site = new \TomatoPHP\FilamentSettingsHub\Settings\SitesSettings();
+            $site            = new \TomatoPHP\FilamentSettingsHub\Settings\SitesSettings();
             $site->site_name = $tenantName;
             $site->save();
         }
@@ -95,7 +95,7 @@ class LoginUrl extends Controller
         $permissionIds = [];
         foreach ($definitions as $value) {
             $permission = Permission::query()->firstOrCreate([
-                'name' => $value,
+                'name'       => $value,
                 'guard_name' => 'web',
             ]);
 

@@ -9,8 +9,10 @@ use App\Models\SocialPost;
 use App\Services\IssueService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use TomatoPHP\FilamentSocial\Jobs\TweetNewIssue;
+
 use function Termwind\terminal;
+
+use TomatoPHP\FilamentSocial\Jobs\TweetNewIssue;
 
 final class TweetAboutNewIssues extends Command
 {
@@ -20,7 +22,7 @@ final class TweetAboutNewIssues extends Command
 
     public function handle(): int
     {
-        if (! config('find-a-pr.tweet_issues')) {
+        if ( ! config('find-a-pr.tweet_issues')) {
             $this->components->info('Tweeting about issues is disabled');
 
             return 0;
@@ -46,18 +48,6 @@ final class TweetAboutNewIssues extends Command
         return 0;
     }
 
-    private function outputJobCount(int $count): void
-    {
-        $jobCountText = 'Showing ['.$count.'] routes';
-
-        $offset = min(terminal()->width() - mb_strlen($jobCountText) - 2, 128);
-        $spaces = str_repeat(' ', $offset);
-
-        $this->newLine();
-
-        $this->line($spaces.'<fg=blue;options=bold>Dispatched ['.$count.'] jobs</>');
-    }
-
     /**
      * @return Collection<Issue>
      */
@@ -73,5 +63,17 @@ final class TweetAboutNewIssues extends Command
             ->pluck('issue_id');
 
         return $issues->filter(fn (Issue $issue) => $tweetedIssueIds->doesntContain($issue->id));
+    }
+
+    private function outputJobCount(int $count): void
+    {
+        $jobCountText = 'Showing [' . $count . '] routes';
+
+        $offset = min(terminal()->width() - mb_strlen($jobCountText) - 2, 128);
+        $spaces = str_repeat(' ', $offset);
+
+        $this->newLine();
+
+        $this->line($spaces . '<fg=blue;options=bold>Dispatched [' . $count . '] jobs</>');
     }
 }

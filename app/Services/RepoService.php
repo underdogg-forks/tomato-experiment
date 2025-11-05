@@ -53,13 +53,13 @@ final readonly class RepoService
      */
     private function getRepoFromGitHubApi(Repository $repo): array
     {
-        $fullRepoName = $repo->owner.'/'.$repo->name;
+        $fullRepoName = $repo->owner . '/' . $repo->name;
 
         $result = app(GitHub::class)
             ->client()
-            ->get('repos/'.$fullRepoName);
+            ->get('repos/' . $fullRepoName);
 
-        if (! $result->successful()) {
+        if ( ! $result->successful()) {
             $this->handleUnsuccessfulIssueRequest($result, $fullRepoName);
         }
 
@@ -73,9 +73,9 @@ final readonly class RepoService
     private function handleUnsuccessfulIssueRequest(Response $response, string $fullRepoName): void
     {
         match ($response->status()) {
-            404 => $this->handleNotFoundResponse($fullRepoName),
-            403 => $this->handleForbiddenResponse($response, $fullRepoName),
-            default => throw new RepoNotCrawlableException('Unknown error for repo '.$fullRepoName),
+            404     => $this->handleNotFoundResponse($fullRepoName),
+            403     => $this->handleForbiddenResponse($response, $fullRepoName),
+            default => throw new RepoNotCrawlableException('Unknown error for repo ' . $fullRepoName),
         };
     }
 
@@ -84,7 +84,7 @@ final readonly class RepoService
      */
     private function handleNotFoundResponse(string $fullRepoName): void
     {
-        throw new RepoNotCrawlableException($fullRepoName.' is not a valid GitHub repo.');
+        throw new RepoNotCrawlableException($fullRepoName . ' is not a valid GitHub repo.');
     }
 
     /**
@@ -97,7 +97,7 @@ final readonly class RepoService
             throw new GitHubRateLimitException('GitHub API rate limit reached!');
         }
 
-        throw new RepoNotCrawlableException($fullRepoName.' is a forbidden GitHub repo.');
+        throw new RepoNotCrawlableException($fullRepoName . ' is a forbidden GitHub repo.');
     }
 
     private function fetchReposFromOrgs(): Collection
@@ -112,11 +112,11 @@ final readonly class RepoService
     private function fetchReposFromOrg(string $org): array
     {
         return Cache::remember(
-            key: 'repos.orgs.'.$org,
+            key: 'repos.orgs.' . $org,
             ttl: now()->addWeek(),
             callback: function () use ($org): array {
                 $client = app(GitHub::class)->client();
-                $page = 1;
+                $page   = 1;
 
                 $repos = collect();
 

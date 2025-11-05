@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentAlerts\Models\NotificationsTemplate;
 
 class NotificationsTemplatePolicy
 {

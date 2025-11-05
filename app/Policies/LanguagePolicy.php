@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentLocations\Models\Language;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentLocations\Models\Language;
 
 class LanguagePolicy
 {

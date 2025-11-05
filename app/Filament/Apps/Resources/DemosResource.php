@@ -3,28 +3,21 @@
 namespace App\Filament\Apps\Resources;
 
 use App\Filament\Apps\Resources\DemosResource\Pages;
-use App\Filament\Apps\Resources\DemosResource\RelationManagers;
 use App\Models\Tenant;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Str;
 
 class DemosResource extends Resource
 {
     protected static ?string $model = Tenant::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
-
 
     public static function getNavigationLabel(): string
     {
@@ -50,9 +43,9 @@ class DemosResource extends Resource
                     ->required()
                     ->unique(table:'tenants', ignoreRecord: true)->live(onBlur: true)
                     ->columnSpanFull()
-                    ->afterStateUpdated(function(Forms\Set $set, $state) {
-                        $set('id', $slug = \Str::of($state)->slug('_')->toString());
-                        $set('domain', \Str::of($state)->slug()->toString());
+                    ->afterStateUpdated(function (Forms\Set $set, $state) {
+                        $set('id', $slug = Str::of($state)->slug('_')->toString());
+                        $set('domain', Str::of($state)->slug()->toString());
                     }),
                 Forms\Components\TextInput::make('id')
                     ->label(trans('cms::messages.register.form.id'))
@@ -63,9 +56,9 @@ class DemosResource extends Resource
                     ->label(trans('cms::messages.register.form.domain'))
                     ->readOnly()
                     ->required()
-                    ->unique(table: 'domains',ignoreRecord: true)
+                    ->unique(table: 'domains', ignoreRecord: true)
                     ->prefix('https://')
-                    ->suffix(".".request()->getHost()),
+                    ->suffix('.' . request()->getHost()),
                 Forms\Components\CheckboxList::make('packages')
                     ->label(trans('cms::messages.register.form.packages'))
                     ->hint(trans('cms::messages.register.form.packages_hint'))
@@ -94,16 +87,16 @@ class DemosResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label(trans('filament-tenancy::messages.columns.name'))
-                    ->description(function ($record){
-                        return "https://".$record->domains()->first()?->domain .'.'.config('filament-tenancy.central_domain'). '/app';
+                    ->description(function ($record) {
+                        return 'https://' . $record->domains()->first()?->domain . '.' . config('filament-tenancy.central_domain') . '/app';
                     }),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->sortable()
-                    ->label(trans('filament-tenancy::messages.columns.is_active'))
+                    ->label(trans('filament-tenancy::messages.columns.is_active')),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label(trans('filament-tenancy::messages.columns.is_active'))
+                    ->label(trans('filament-tenancy::messages.columns.is_active')),
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
@@ -112,7 +105,7 @@ class DemosResource extends Resource
                     ->tooltip(trans('filament-tenancy::messages.actions.view'))
                     ->iconButton()
                     ->icon('heroicon-s-link')
-                    ->url(fn($record) => "https://".$record->domains()->first()?->domain .'.'.config('filament-tenancy.central_domain'). '/app')
+                    ->url(fn ($record) => 'https://' . $record->domains()->first()?->domain . '.' . config('filament-tenancy.central_domain') . '/app')
                     ->openUrlInNewTab(),
                 Tables\Actions\Action::make('login')
                     ->label(trans('filament-tenancy::messages.actions.login'))
@@ -121,10 +114,10 @@ class DemosResource extends Resource
                     ->color('warning')
                     ->iconButton()
                     ->icon('heroicon-s-arrow-left-on-rectangle')
-                    ->action(function ($record){
+                    ->action(function ($record) {
                         $token = tenancy()->impersonate($record, 1, '/app', 'web');
 
-                        return redirect()->to('https://'.$record->domains[0]->domain.'.'. config('filament-tenancy.central_domain') . '/login/url?token='.$token->token .'&email='. $record->email);
+                        return redirect()->to('https://' . $record->domains[0]->domain . '.' . config('filament-tenancy.central_domain') . '/login/url?token=' . $token->token . '&email=' . $record->email);
                     }),
                 Tables\Actions\Action::make('password')
                     ->label(trans('filament-tenancy::messages.actions.password'))
@@ -157,7 +150,6 @@ class DemosResource extends Resource
                     ->label(trans('filament-tenancy::messages.actions.delete'))
                     ->tooltip(trans('filament-tenancy::messages.actions.delete'))
                     ->iconButton(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -169,7 +161,6 @@ class DemosResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 

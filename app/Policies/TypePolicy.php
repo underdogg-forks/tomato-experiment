@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentTypes\Models\Type;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentTypes\Models\Type;
 
 class TypePolicy
 {

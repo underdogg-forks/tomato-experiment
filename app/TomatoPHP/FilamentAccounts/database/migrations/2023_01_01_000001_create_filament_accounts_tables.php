@@ -4,13 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up(): void
     {
+        Schema::create('accounts', function (Blueprint $table): void {
+            $table->id();
+        });
+
         Schema::create('accounts_meta', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
+            $table->unsignedInteger('account_id');
             $table->string('key');
             $table->json('value')->nullable();
             $table->timestamps();
@@ -18,7 +21,7 @@ return new class extends Migration
 
         Schema::create('account_requests', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->nullOnDelete();
+            $table->unsignedInteger('account_id');
             $table->string('status')->default('pending');
             $table->text('notes')->nullable();
             $table->timestamps();
@@ -26,7 +29,7 @@ return new class extends Migration
 
         Schema::create('contacts', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->nullOnDelete();
+            $table->unsignedInteger('account_id');
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -34,16 +37,16 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('teams', function (Blueprint $table): void {
+        /*Schema::create('teams', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('owner_id')->nullable()->constrained('accounts')->nullOnDelete();
+            $table->unsignedInteger('account_id');
             $table->string('name');
             $table->timestamps();
-        });
+        });*/
 
         Schema::create('team_invitations', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
+            $table->unsignedInteger('team_id');
             $table->string('email');
             $table->string('token');
             $table->string('status')->default('pending');
@@ -52,16 +55,16 @@ return new class extends Migration
 
         Schema::create('team_memberships', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
-            $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
+            $table->unsignedInteger('team_id');
+            $table->unsignedInteger('account_id');
             $table->string('role')->nullable();
             $table->timestamps();
         });
 
         Schema::create('account_tenant', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
-            $table->foreignId('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->unsignedInteger('account_id');
+            $table->unsignedInteger('tenant_id');
             $table->timestamps();
         });
     }

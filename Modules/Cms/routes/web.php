@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Cms\Http\Controllers\CmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +38,6 @@ Route::domain(config('app.domain'))->middleware(['web'])->group(function () {
             Route::get('/blog/{post}', [\Modules\Cms\Http\Controllers\HomeController::class, 'post'])->name('post');
             Route::get('/{page}', [\Modules\Cms\Http\Controllers\HomeController::class, 'page'])->name('page');
         });
-
     });
 
     Route::prefix('en')->middleware(['web', \Modules\Cms\Http\Middlewares\LangRoute::class])->group(function () {
@@ -62,7 +60,6 @@ Route::domain(config('app.domain'))->middleware(['web'])->group(function () {
             Route::get('/blog/{post}', [\Modules\Cms\Http\Controllers\HomeController::class, 'post'])->name('post');
             Route::get('/{page}', [\Modules\Cms\Http\Controllers\HomeController::class, 'page'])->name('page');
         });
-
     });
 
     Route::get('/{username}', [\Modules\Cms\Http\Controllers\ProfileController::class, 'index'])->name('profile');

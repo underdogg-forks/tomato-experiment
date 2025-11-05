@@ -2,13 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Account;
-use App\Models\Tenant;
+use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use TomatoPHP\FilamentCms\Models\Post;
 use TomatoPHP\FilamentSeo\Facades\FilamentSeo;
-use TomatoPHP\FilamentSeo\Jobs\GoogleIndexURLJob;
 use Ymigval\LaravelIndexnow\Facade\IndexNow;
 
 class MoveOldTenantsToAccounts extends Command
@@ -34,32 +31,31 @@ class MoveOldTenantsToAccounts extends Command
     {
         $posts = Post::query()->where('is_published', 1)->get();
 
-        foreach ($posts as $post){
-            $ar = url('/ar'. ($post->type === 'post' ? '/blog/' : '/open-source/') . $post->slug);
-            $en = url('/en'.($post->type === 'post' ? '/blog/' : '/open-source/') . $post->slug);
+        foreach ($posts as $post) {
+            $ar = url('/ar' . ($post->type === 'post' ? '/blog/' : '/open-source/') . $post->slug);
+            $en = url('/en' . ($post->type === 'post' ? '/blog/' : '/open-source/') . $post->slug);
 
-            $this->info("Google Indexing: $en");
+            $this->info("Google Indexing: {$en}");
             try {
                 FilamentSeo::google()->indexUrl($en);
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 $this->error($e->getMessage());
             }
 
-            $this->info("Google Indexing: $ar");
+            $this->info("Google Indexing: {$ar}");
             try {
                 FilamentSeo::google()->indexUrl($ar);
-            }catch (\Exception $e){
+            } catch (Exception $e) {
                 $this->error($e->getMessage());
             }
 
-
-            $this->info("IndexNow Indexing: $en");
+            $this->info("IndexNow Indexing: {$en}");
             IndexNow::submit($en);
 
-            $this->info("IndexNow Indexing: $ar");
+            $this->info("IndexNow Indexing: {$ar}");
             IndexNow::submit($ar);
 
-            $this->info("====================================");
+            $this->info('====================================');
         }
     }
 }

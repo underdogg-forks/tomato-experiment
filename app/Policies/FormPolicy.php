@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentCms\Models\Form;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentCms\Models\Form;
 
 class FormPolicy
 {

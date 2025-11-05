@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use TomatoPHP\FilamentEcommerce\Models\Order;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentEcommerce\Models\Order;
 
 class OrderPolicy
 {

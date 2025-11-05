@@ -4,8 +4,8 @@ namespace App\Policies;
 
 use App\Models\Account;
 use App\Models\User;
-use TomatoPHP\FilamentNotes\Models\Note;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use TomatoPHP\FilamentNotes\Models\Note;
 
 class NotePolicy
 {
