@@ -21,7 +21,7 @@ return new class () extends Migration {
             $table->date('date');
 
             //Source
-            $table->string('source')->default('fingerprint')->nullable();
+            $table->string('source')->default('fingerprint')->nullable(); // AttendanceSource::FINGERPRINT
 
             //Data
             $table->time('in_at');

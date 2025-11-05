@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AccountType;
+use App\Enums\LoginBy;
 use App\Models\Account;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -20,11 +22,11 @@ class AccountSeeder extends Seeder
                 'name'      => 'Super Admin',
                 'username'  => 'admin',
                 'phone'     => '+1234567890',
-                'loginBy'   => 'email',
+                'loginBy'   => LoginBy::EMAIL,
                 'address'   => 'Admin Address',
                 'lang'      => 'en',
                 'password'  => Hash::make('password'),
-                'type'      => 'super_admin',
+                'type'      => AccountType::SUPER_ADMIN,
                 'is_active' => true,
                 'is_login'  => false,
             ]

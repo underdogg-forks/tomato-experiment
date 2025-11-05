@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasRoles;
 use TomatoPHP\FilamentAccounts\Models\AccountRequest;
 use TomatoPHP\FilamentAccounts\Traits\InteractsWithTenant;
 use TomatoPHP\FilamentAlerts\Traits\InteractsWithNotifications;
@@ -59,6 +60,7 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     use BilledFor;
     use HasApiTokens;
     use HasFactory;
+    use HasRoles;
     use HasWalletFloat;
     use InteractsWithFCM;
     use InteractsWithMedia;
@@ -95,6 +97,8 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     ];
 
     protected $casts = [
+        'type'      => AccountType::class,
+        'loginBy'   => LoginBy::class,
         'is_login'  => 'boolean',
         'is_active' => 'boolean',
     ];

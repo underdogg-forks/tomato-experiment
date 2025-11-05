@@ -20,12 +20,12 @@ return new class () extends Migration {
             $table->dateTime('date')->nullable();
 
             //Data
-            $table->string('reason')->default('payment');
-            $table->string('type')->default('in');
+            $table->string('reason')->default('payment'); // EmployeePaymentReason::PAYMENT
+            $table->string('type')->default('in'); // EmployeePaymentType::IN
             $table->text('description')->nullable();
 
             $table->double('total')->default(0);
-            $table->string('status')->default('pending')->nullable();
+            $table->string('status')->default('pending')->nullable(); // EmployeePaymentStatus::PENDING
 
             $table->boolean('is_approved')->default(0)->nullable();
 

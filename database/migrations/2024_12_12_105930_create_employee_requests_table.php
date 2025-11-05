@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
 
-            $table->string('type')->default('holiday')->nullable();
+            $table->string('type')->default('holiday')->nullable(); // EmployeeRequestType::HOLIDAY
 
             //Dates
             $table->dateTime('from')->nullable();
@@ -33,7 +33,7 @@ return new class () extends Migration {
             $table->foreignId('request_by')->nullable()->constrained('users')->onDelete('cascade');
 
             //Status
-            $table->string('status')->default('pending')->nullable();
+            $table->string('status')->default('pending')->nullable(); // EmployeeRequestStatus::PENDING
 
             //Options
             $table->boolean('is_activated')->default(0)->nullable();

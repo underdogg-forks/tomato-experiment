@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\AccountType;
+use App\Enums\LoginBy;
 use App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -30,11 +32,11 @@ class AccountFactory extends Factory
             'email'     => fake()->unique()->safeEmail(),
             'phone'     => fake()->phoneNumber(),
             'username'  => fake()->unique()->userName(),
-            'loginBy'   => 'email',
+            'loginBy'   => LoginBy::EMAIL,
             'address'   => fake()->address(),
             'lang'      => 'en',
             'password'  => static::$password ??= Hash::make('password'),
-            'type'      => 'user',
+            'type'      => AccountType::USER,
             'is_active' => true,
             'is_login'  => false,
         ];
@@ -46,7 +48,7 @@ class AccountFactory extends Factory
     public function superAdmin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type'     => 'super_admin',
+            'type'     => AccountType::SUPER_ADMIN,
             'email'    => 'admin@admin.com',
             'username' => 'admin',
             'name'     => 'Super Admin',

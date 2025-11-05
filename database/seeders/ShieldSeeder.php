@@ -16,14 +16,21 @@ class ShieldSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Create roles
+        // Create roles for 'web' guard
         $superAdmin = Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
         $admin      = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         $user       = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
         $owner      = Role::firstOrCreate(['name' => 'owner', 'guard_name' => 'web']);
         $manager    = Role::firstOrCreate(['name' => 'manager', 'guard_name' => 'web']);
 
-        // Create basic permissions
+        // Create roles for 'accounts' guard
+        $accountSuperAdmin = Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'accounts']);
+        $accountAdmin      = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'accounts']);
+        $accountUser       = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'accounts']);
+        $accountOwner      = Role::firstOrCreate(['name' => 'owner', 'guard_name' => 'accounts']);
+        $accountManager    = Role::firstOrCreate(['name' => 'manager', 'guard_name' => 'accounts']);
+
+        // Create basic permissions for 'web' guard
         $permissions = [
             'view_any_user',
             'view_user',
@@ -46,9 +53,17 @@ class ShieldSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
-        // Give super_admin all permissions
-        $superAdmin->givePermissionTo(Permission::all());
+        // Create basic permissions for 'accounts' guard
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'accounts']);
+        }
 
-        $this->command->info('Shield roles and permissions seeded successfully!');
+        // Give super_admin all permissions (web guard)
+        $superAdmin->givePermissionTo(Permission::where('guard_name', 'web')->get());
+
+        // Give super_admin all permissions (accounts guard)
+        $accountSuperAdmin->givePermissionTo(Permission::where('guard_name', 'accounts')->get());
+
+        $this->command->info('Shield roles and permissions seeded successfully for both web and accounts guards!');
     }
 }
