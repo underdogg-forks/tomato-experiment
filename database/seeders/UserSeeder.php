@@ -38,8 +38,6 @@ class UserSeeder extends Seeder
                 'email'             => 'user@example.com',
                 'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
-                'username'          => 'user',
-                'packages'          => [],
                 'account_id'        => $account->id,
             ]
         );

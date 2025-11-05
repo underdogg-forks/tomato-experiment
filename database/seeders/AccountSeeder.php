@@ -46,8 +46,6 @@ class AccountSeeder extends Seeder
                 'email'             => 'admin@admin.com',
                 'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
-                'username'          => 'admin',
-                'packages'          => [],
                 'account_id'        => $superAdmin->id,
             ]
         );

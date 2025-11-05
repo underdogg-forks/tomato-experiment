@@ -64,7 +64,6 @@ class TenantSeeder extends Seeder
                             'name'     => "Tenant User {$totalTenantsCreated}",
                             'email'    => "tenant{$totalTenantsCreated}@example.com",
                             'password' => Hash::make('password'),
-                            'packages' => [],
                         ]
                     );
                 });
