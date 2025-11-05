@@ -18,7 +18,7 @@ class TeamResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->label(trans('Name')),
+            Forms\Components\TextInput::make('name')->label(trans('tomato.name')),
         ]);
     }
 
