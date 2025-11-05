@@ -37,7 +37,7 @@ class FilamentTenancyServiceProvider extends ServiceProvider
 
     protected function registerMiddleware(): void
     {
-        $router = $this->app['router'];
+        $router = $this->app->make('router');
 
         $router->middlewareGroup(self::TENANCY_IDENTIFICATION, [
             InitializeTenancyByDomain::class,

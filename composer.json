@@ -132,6 +132,7 @@
     },
     "replace": {
         "tomatophp/filament-accounts": "*",
+        "tomatophp/filament-tenancy": "*",
         "tomatophp/filament-users": "*"
     },
     "minimum-stability": "stable",

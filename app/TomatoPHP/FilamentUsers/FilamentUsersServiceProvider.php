@@ -23,6 +23,5 @@ class FilamentUsersServiceProvider extends ServiceProvider
         ], 'filament-users-translations');
 
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'filament-users');
-        Lang::addNamespace('filament-users', __DIR__.'/resources/lang');
     }
 }
