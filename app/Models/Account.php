@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AccountType;
+use App\Enums\LoginBy;
 use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Traits\HasWalletFloat;
 use Filament\Models\Contracts\FilamentUser;
@@ -22,6 +24,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 use TomatoPHP\FilamentAccounts\Models\AccountRequest;
+use TomatoPHP\FilamentAccounts\Models\AccountsMeta;
 use TomatoPHP\FilamentAccounts\Traits\InteractsWithTenant;
 use TomatoPHP\FilamentAlerts\Traits\InteractsWithNotifications;
 use TomatoPHP\FilamentCms\Models\Comment;

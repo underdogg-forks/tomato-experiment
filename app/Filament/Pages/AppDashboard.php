@@ -8,8 +8,6 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Bus;
 use TomatoPHP\FilamentCms\Jobs\GitHubMetaRefreshJob;
 
 class AppDashboard extends Dashboard
@@ -37,7 +35,7 @@ class AppDashboard extends Dashboard
                 ->requiresConfirmation()
                 ->color('warning')
                 ->icon('bx-git-repo-forked')
-                ->label('Sync GitHub Issues')
+                ->label(trans('tomato.sync_github_issues'))
                 ->action(function () {
                     $batches = app(RepoService::class)
                         ->reposToCrawl()
@@ -47,11 +45,11 @@ class AppDashboard extends Dashboard
                         })
                         ->all();
 
-                    Bus::batch($batches)
+                    /*Bus::batch($batches)
                         ->then(function (): void {
-                            Artisan::call('issues:tweet');
+                            //Artisan::call('issues:tweet');
                         })
-                        ->dispatch();
+                        ->dispatch();*/
 
                     Notification::make()
                         ->title('GitHub Issues Synced')
