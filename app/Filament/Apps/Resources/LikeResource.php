@@ -3,24 +3,17 @@
 namespace App\Filament\Apps\Resources;
 
 use App\Filament\Apps\Resources\LikeResource\Pages;
-use App\Filament\Apps\Resources\LikeResource\RelationManagers;
-use App\Models\Account;
 use App\Models\Like;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use TomatoPHP\FilamentTypes\Components\TypeColumn;
 
 class LikeResource extends Resource
 {
     protected static ?string $model = Like::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-heart';
-
 
     public static function getNavigationLabel(): string
     {
@@ -36,7 +29,6 @@ class LikeResource extends Resource
     {
         return  trans('cms::messages.likes.single');
     }
-
 
     public static function table(Table $table): Table
     {
@@ -59,11 +51,10 @@ class LikeResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->url(fn($record) => $record->post->type === 'open-source' ? url(app()->getLocale() . '/open-source/' . $record->post->slug) : url(app()->getLocale() . '/blog/' . $record->post->slug))
+                    ->url(fn ($record) => $record->post->type === 'open-source' ? url(app()->getLocale() . '/open-source/' . $record->post->slug) : url(app()->getLocale() . '/blog/' . $record->post->slug))
                     ->openUrlInNewTab(),
                 Tables\Actions\DeleteAction::make(),
             ])

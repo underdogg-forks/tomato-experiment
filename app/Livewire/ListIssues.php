@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Livewire;
 
 use App\DataTransferObjects\Issue;
@@ -10,12 +8,13 @@ use App\DataTransferObjects\Repository;
 use App\Exceptions\GitHubRateLimitException;
 use App\Services\IssueService;
 use App\Services\RepoService;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Livewire\Component;
 
-final class ListIssues extends Component
+class ListIssues extends Component
 {
     private const SORTS = [
         'random' => [
@@ -45,13 +44,6 @@ final class ListIssues extends Component
         'interactions_desc' => [
             'friendly' => 'Interactions (Most first)', 'field' => 'interactionsCount', 'direction' => 'desc',
         ],
-    ];
-
-    protected $queryString = [
-        'sortField' => ['except' => 'random'],
-        'sortDirection' => ['except' => 'asc'],
-        'searchTerm' => ['except' => ''],
-        'showIgnoredIssues' => ['except' => false],
     ];
 
     public array $labels;
@@ -87,6 +79,13 @@ final class ListIssues extends Component
 
     public bool $showIgnoredIssues = false;
 
+    protected $queryString = [
+        'sortField'         => ['except' => 'random'],
+        'sortDirection'     => ['except' => 'asc'],
+        'searchTerm'        => ['except' => ''],
+        'showIgnoredIssues' => ['except' => false],
+    ];
+
     public function mount(): void
     {
         $this->setSortOrderOnPageLoad();
@@ -118,43 +117,16 @@ final class ListIssues extends Component
 
         return view('livewire.list-issues', [
             'issues' => $issues,
-            'sorts' => self::SORTS,
+            'sorts'  => self::SORTS,
         ]);
     }
 
     public function updatedSort(string $newSort): void
     {
         if (array_key_exists($newSort, self::SORTS)) {
-            $this->sortField = self::SORTS[$newSort]['field'];
+            $this->sortField     = self::SORTS[$newSort]['field'];
             $this->sortDirection = self::SORTS[$newSort]['direction'] ?? 'asc';
         }
-    }
-
-    private function applySearch(): \Closure
-    {
-        return static function (Collection $issues, string $searchTerm): Collection {
-            $searchTerm = strtolower($searchTerm);
-
-            return $issues->filter(function (Issue $issue) use ($searchTerm): bool {
-                return str_contains(strtolower($issue->repoName), $searchTerm)
-                    || str_contains(strtolower($issue->title), $searchTerm);
-            });
-        };
-    }
-
-    private function applySearchLabel(): \Closure
-    {
-        return static function (Collection $issues, array $searchLabels): Collection {
-            return $issues->filter(function (Issue $issue) use ($searchLabels): bool {
-                foreach ($searchLabels as $searchLabel) {
-                    if (collect($issue->labels)->contains('name', $searchLabel)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            });
-        };
     }
 
     public function toggleSearchLabel(string $label): void
@@ -166,13 +138,6 @@ final class ListIssues extends Component
         } else {
             $this->searchLabels[] = $label;
         }
-    }
-
-    private function applySort(): \Closure
-    {
-        return function (Collection $issues): Collection {
-            return $issues->sortBy($this->sortField, descending: $this->sortDirection === 'desc');
-        };
     }
 
     public function updatedShouldDisplayFirstTimeNotice(): void
@@ -189,9 +154,43 @@ final class ListIssues extends Component
             })
             ->toArray();
 
-        if (! $this->ignoredUrls) {
+        if ( ! $this->ignoredUrls) {
             $this->showIgnoredIssues = false;
         }
+    }
+
+    private function applySearch(): Closure
+    {
+        return static function (Collection $issues, string $searchTerm): Collection {
+            $searchTerm = mb_strtolower($searchTerm);
+
+            return $issues->filter(function (Issue $issue) use ($searchTerm): bool {
+                return str_contains(mb_strtolower($issue->repoName), $searchTerm)
+                    || str_contains(mb_strtolower($issue->title), $searchTerm);
+            });
+        };
+    }
+
+    private function applySearchLabel(): Closure
+    {
+        return static function (Collection $issues, array $searchLabels): Collection {
+            return $issues->filter(function (Issue $issue) use ($searchLabels): bool {
+                foreach ($searchLabels as $searchLabel) {
+                    if (collect($issue->labels)->contains('name', $searchLabel)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+        };
+    }
+
+    private function applySort(): Closure
+    {
+        return function (Collection $issues): Collection {
+            return $issues->sortBy($this->sortField, descending: $this->sortDirection === 'desc');
+        };
     }
 
     private function setSortOrderOnPageLoad(): void
@@ -221,13 +220,14 @@ final class ListIssues extends Component
      * Loop through each of the labels on the issue and increment the count
      * for each label that we're tracking in Find A PR.
      *
-     * @param  Issue  $issue
+     * @param Issue $issue
+     *
      * @return void
      */
     private function incrementLabelCounts(Issue $issue): void
     {
         foreach ($issue->labels as $label) {
-            if (! $this->isValidLabel($label)) {
+            if ( ! $this->isValidLabel($label)) {
                 continue;
             }
 

@@ -1,9 +1,7 @@
 <?php
 
 return [
-
     'request' => [
-
         /*
          * Enable or disable request logger
          */
@@ -15,7 +13,7 @@ return [
          */
 
         'handlers' => [
-            TomatoPHP\FilamentLogger\Handlers\RequestLoggerHandler::class
+            TomatoPHP\FilamentLogger\Handlers\RequestLoggerHandler::class,
         ],
 
         /*
@@ -61,7 +59,7 @@ return [
 
         'excluded-paths' => [
             'manifest.json',
-            'login/url'
+            'login/url',
         ],
 
         /*
@@ -76,7 +74,6 @@ return [
 
         'benchmark' => 'application',
 
-
         /*
          * Log selected Guards
          */
@@ -84,7 +81,7 @@ return [
         'guards' => [
             'web',
             'panel:user',
-            'panel:admin'
+            'panel:admin',
         ],
 
         /*

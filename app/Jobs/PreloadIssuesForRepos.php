@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Jobs;
 
 use App\DataTransferObjects\Repository;
@@ -14,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
-final class PreloadIssuesForRepos implements ShouldQueue
+class PreloadIssuesForRepos implements ShouldQueue
 {
     use Batchable;
     use Dispatchable;
@@ -23,12 +21,9 @@ final class PreloadIssuesForRepos implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @param  Collection<Repository>  $repos
+     * @param Collection<Repository> $repos
      */
-    public function __construct(private Collection $repos)
-    {
-        //
-    }
+    public function __construct(private Collection $repos) {}
 
     public function handle(IssueService $issueService): void
     {

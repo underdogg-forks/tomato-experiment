@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use Exception;
 use Filament\Notifications\Notification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use TomatoPHP\FilamentAccounts\Models\AccountsMeta;
-use TomatoPHP\FilamentAlerts\Services\SendNotification;
-use App\Models\Tenant;
 use TomatoPHP\FilamentDiscord\Jobs\NotifyDiscordJob;
 
 class AuthController extends Controller
@@ -21,7 +17,7 @@ class AuthController extends Controller
         try {
             return Socialite::driver($provider)
                 ->redirect();
-        }catch (\Exception $exception){
+        } catch (Exception $exception) {
             Notification::make()
                 ->title('Error')
                 ->body('Something went wrong!')
@@ -35,15 +31,14 @@ class AuthController extends Controller
     public function callback($provider)
     {
         try {
-            $providerHasToken = config('services.'.$provider.'.client_token');
+            $providerHasToken = config('services.' . $provider . '.client_token');
             try {
-                if($providerHasToken){
+                if ($providerHasToken) {
                     $socialUser = Socialite::driver($provider)->userFromToken($providerHasToken);
-                }
-                else {
+                } else {
                     $socialUser = Socialite::driver($provider)->user();
                 }
-            }catch (\Exception $exception){
+            } catch (Exception $exception) {
                 Notification::make()
                     ->title('Oh No!')
                     ->body("You don't have any account please register first!")
@@ -53,26 +48,25 @@ class AuthController extends Controller
                 return redirect()->to(app()->getLocale() . '/register');
             }
 
-            if(isset($socialUser->attributes['nickname'])){
+            if (isset($socialUser->attributes['nickname'])) {
                 $id = str($socialUser->attributes['nickname'])->slug('_');
-            }
-            else {
-                $id = \Str::of($socialUser->name)->slug('_')->toString();
+            } else {
+                $id = Str::of($socialUser->name)->slug('_')->toString();
             }
 
             $user = Account::query()->whereHas('accountsMetas', function ($query) use ($socialUser, $provider) {
                 $query->where('key', $provider)->where('value', $socialUser->id);
             })->first();
 
-            if(!$user){
+            if ( ! $user) {
                 $user = Account::query()->where('email', $socialUser->email)->first();
-                if(!$user){
+                if ( ! $user) {
                     $user = Account::create([
-                        'email' => $socialUser->email,
-                        'name' => $socialUser->name,
-                        'username' => $id,
+                        'email'            => $socialUser->email,
+                        'name'             => $socialUser->name,
+                        'username'         => $id,
                         'otp_activated_at' => Carbon::now(),
-                        'is_active' => true,
+                        'is_active'        => true,
                     ]);
 
                     $user->meta($provider, $socialUser->id);
@@ -80,51 +74,47 @@ class AuthController extends Controller
                     Notification::make()
                         ->title('New TomatoPHP User')
                         ->body(collect([
-                            'NAME: '.$user->name,
-                            'EMAIL: '.$user->email,
-                            'PHONE: '.$user->phone,
-                            'USERNAME: '.$user->username,
+                            'NAME: ' . $user->name,
+                            'EMAIL: ' . $user->email,
+                            'PHONE: ' . $user->phone,
+                            'USERNAME: ' . $user->username,
                         ])->implode("\n"))
                         ->sendToDiscord();
-                }
-                else {
+                } else {
                     $user->update([
-                        'name' => $socialUser->name,
+                        'name'             => $socialUser->name,
                         'otp_activated_at' => Carbon::now(),
-                        'is_active' => true,
+                        'is_active'        => true,
                     ]);
 
                     $user->meta($provider, $socialUser->id);
                 }
             }
 
-
             auth('accounts')->login($user);
 
             Notification::make()
-                ->title('Welcome '. $user->name)
+                ->title('Welcome ' . $user->name)
                 ->body('You have successfully registered')
                 ->success()
                 ->send();
 
             return redirect()->to('/user');
-        }
-        catch (\Exception $exception){
-
-            if(config('filament-discord.error-webhook-active')){
+        } catch (Exception $exception) {
+            if (config('filament-discord.error-webhook-active')) {
                 try {
                     dispatch(new NotifyDiscordJob([
                         'webhook' => config('filament-discord.error-webhook'),
-                        'title' => $exception->getMessage(),
+                        'title'   => $exception->getMessage(),
                         'message' => collect([
-                            "File: ".$exception->getFile(),
-                            "Line: ".$exception->getLine(),
-                            "Time: ".\Carbon\Carbon::now()->toDateTimeString(),
-                            "Trace: ```".str($exception->getTraceAsString())->limit(2500) ."```",
+                            'File: ' . $exception->getFile(),
+                            'Line: ' . $exception->getLine(),
+                            'Time: ' . \Carbon\Carbon::now()->toDateTimeString(),
+                            'Trace: ```' . str($exception->getTraceAsString())->limit(2500) . '```',
                         ])->implode("\n"),
-                        'url' => url()->current()
+                        'url' => url()->current(),
                     ]));
-                }catch (\Exception $exception){
+                } catch (Exception $exception) {
                     // do nothing
                 }
             }
@@ -134,6 +124,7 @@ class AuthController extends Controller
                 ->body('Something went wrong!')
                 ->danger()
                 ->send();
+
             return redirect()->to('/');
         }
     }

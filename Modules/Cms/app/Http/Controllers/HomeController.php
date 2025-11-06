@@ -13,6 +13,7 @@ class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Renderable
      */
     public function index()
@@ -25,8 +26,9 @@ class HomeController extends Controller
         $page = load_page('/about');
         $page->views += 1;
         $page->save();
+
         return view('cms::about', [
-            'page' => $page
+            'page' => $page,
         ]);
     }
 
@@ -35,68 +37,11 @@ class HomeController extends Controller
         $page = load_page('/donate');
         $page->views += 1;
         $page->save();
+
         return view('cms::donate', [
-            'page' => $page
+            'page' => $page,
         ]);
     }
-
-    private function applyFilter(Builder $query,string $key='category'): Builder
-    {
-        if(request()->has('search') && !empty('search')){
-            $query
-                ->where('slug', 'like', '%'.request()->search.'%');
-        }
-
-        if(request()->has('sort') && !empty('sort')){
-            if(request()->get('sort') === 'popular'){
-                $query->orderBy('views', 'desc');
-            }
-            elseif (request()->get('sort') === 'recent'){
-                $query->orderBy('created_at', 'desc');
-            }
-            elseif (request()->get('sort') === 'alphabetical'){
-                $query->orderBy('title');
-            }
-            else {
-                $query->orderBy('created_at', 'desc');
-            }
-        }
-
-        if(request()->has($key) && !empty($key)){
-            $query->whereHas('categories', function ($query) use ($key){
-                $query->where('slug', request()->get($key));
-            });
-        }
-
-        return $query;
-    }
-
-    private function applyAccountFilter(Builder $query): Builder
-    {
-        if(request()->has('search') && !empty('search')){
-            $query
-                ->where('username', 'like', '%'.request()->search.'%');
-        }
-
-        if(request()->has('sort') && !empty('sort')){
-            if(request()->get('sort') === 'popular'){
-                //Order By Type where type is 'verified', 'public'
-                $query->orderByRaw("case when type = 'verified' then 1 when type = 'public' then 2 else 3 end");
-            }
-            elseif (request()->get('sort') === 'recent'){
-                $query->orderBy('created_at', 'desc');
-            }
-            elseif (request()->get('sort') === 'alphabetical'){
-                $query->orderBy('name');
-            }
-            else {
-                $query->inRandomOrder();
-            }
-        }
-
-        return $query;
-    }
-
 
     public function openSource(Request $request)
     {
@@ -107,8 +52,9 @@ class HomeController extends Controller
         $openSources = $this->applyFilter($openSources);
 
         $openSources = $openSources->paginate(10);
+
         return view('cms::open-source', [
-            'openSources' => $openSources
+            'openSources' => $openSources,
         ]);
     }
 
@@ -126,19 +72,17 @@ class HomeController extends Controller
             ->where('slug', $docs)
             ->first();
 
-        if($docs){
+        if ($docs) {
             $docs->views += 1;
             $docs->save();
 
             return view('cms::docs', [
-                "docs" => $docs,
-                "openSources" => $openSources
+                'docs'        => $docs,
+                'openSources' => $openSources,
             ]);
         }
-        else {
-            abort(404);
-        }
 
+        abort(404);
     }
 
     public function portfolios()
@@ -150,8 +94,9 @@ class HomeController extends Controller
         $portfolios = $this->applyFilter($portfolios);
 
         $portfolios = $portfolios->paginate(12);
+
         return view('cms::portfolios', [
-            'portfolios' => $portfolios
+            'portfolios' => $portfolios,
         ]);
     }
 
@@ -160,11 +105,11 @@ class HomeController extends Controller
         $portfolio = Post::query()->where('slug', $portfolio)->first();
         $portfolio->views += 1;
         $portfolio->save();
+
         return view('cms::portfolio', [
-            "portfolio" => $portfolio
+            'portfolio' => $portfolio,
         ]);
     }
-
 
     public function services()
     {
@@ -173,8 +118,9 @@ class HomeController extends Controller
             ->where('is_published', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(12);
+
         return view('cms::services', [
-            'services' => $services
+            'services' => $services,
         ]);
     }
 
@@ -183,8 +129,9 @@ class HomeController extends Controller
         $service = Post::query()->where('slug', $service)->first();
         $service->views += 1;
         $service->save();
+
         return view('cms::service', [
-            "service" => $service
+            'service' => $service,
         ]);
     }
 
@@ -199,7 +146,7 @@ class HomeController extends Controller
         $posts = $posts->paginate(12);
 
         return view('cms::blog', [
-            "posts" => $posts
+            'posts' => $posts,
         ]);
     }
 
@@ -207,18 +154,16 @@ class HomeController extends Controller
     {
         $post = Post::query()->where('slug', $post)->first();
 
-        if($post){
+        if ($post) {
             $post->views += 1;
             $post->save();
 
             return view('cms::post', [
-                'post' => $post
+                'post' => $post,
             ]);
         }
-        else {
-            abort(404);
-        }
 
+        abort(404);
     }
 
     public function contact()
@@ -235,23 +180,22 @@ class HomeController extends Controller
     {
         $page = Post::query()->where('type', 'page')->where('slug', $page)->first();
 
-        if($page){
+        if ($page) {
             $page->views += 1;
             $page->save();
 
             return view('cms::page', [
-                'page' => $page
+                'page' => $page,
             ]);
         }
-        else {
-            abort(404);
-        }
+
+        abort(404);
     }
 
     public function community()
     {
-        $accounts = Account::query()->whereHas('accountsMetas', function (Builder $q){
-            $q->where('key', 'is_public')->where('value', "1");
+        $accounts = Account::query()->whereHas('accountsMetas', function (Builder $q) {
+            $q->where('key', 'is_public')->where('value', '1');
         });
 
         $accounts = $this->applyAccountFilter($accounts);
@@ -259,7 +203,58 @@ class HomeController extends Controller
         $accounts = $accounts->paginate(12);
 
         return view('cms::community', [
-            "accounts" => $accounts
+            'accounts' => $accounts,
         ]);
+    }
+
+    private function applyFilter(Builder $query, string $key = 'category'): Builder
+    {
+        if (request()->has('search') && ! empty('search')) {
+            $query
+                ->where('slug', 'like', '%' . request()->search . '%');
+        }
+
+        if (request()->has('sort') && ! empty('sort')) {
+            if (request()->get('sort') === 'popular') {
+                $query->orderBy('views', 'desc');
+            } elseif (request()->get('sort') === 'recent') {
+                $query->orderBy('created_at', 'desc');
+            } elseif (request()->get('sort') === 'alphabetical') {
+                $query->orderBy('title');
+            } else {
+                $query->orderBy('created_at', 'desc');
+            }
+        }
+
+        if (request()->has($key) && ! empty($key)) {
+            $query->whereHas('categories', function ($query) use ($key) {
+                $query->where('slug', request()->get($key));
+            });
+        }
+
+        return $query;
+    }
+
+    private function applyAccountFilter(Builder $query): Builder
+    {
+        if (request()->has('search') && ! empty('search')) {
+            $query
+                ->where('username', 'like', '%' . request()->search . '%');
+        }
+
+        if (request()->has('sort') && ! empty('sort')) {
+            if (request()->get('sort') === 'popular') {
+                //Order By Type where type is 'verified', 'public'
+                $query->orderByRaw("case when type = 'verified' then 1 when type = 'public' then 2 else 3 end");
+            } elseif (request()->get('sort') === 'recent') {
+                $query->orderBy('created_at', 'desc');
+            } elseif (request()->get('sort') === 'alphabetical') {
+                $query->orderBy('name');
+            } else {
+                $query->inRandomOrder();
+            }
+        }
+
+        return $query;
     }
 }

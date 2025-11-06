@@ -3,9 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Account;
-use App\Models\Tenant;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -15,32 +15,30 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
-use Filament\Pages\SimplePage;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class RegisterOtp extends Component implements HasActions, HasForms
 {
+    use InteractsWithActions;
     use InteractsWithFormActions;
     use InteractsWithForms;
-    use InteractsWithActions;
     use WithRateLimiting;
 
     public array $data;
+
     public $user;
+
     public string $otp;
 
     public function mount(): void
     {
-        if(!session()->has('demo_user')){
+        if ( ! session()->has('demo_user')) {
             abort(404);
-        }
-        else {
+        } else {
             $this->user = Account::query()->find(session('demo_user'));
         }
     }
@@ -54,7 +52,7 @@ class RegisterOtp extends Component implements HasActions, HasForms
                 ->maxLength(6)
                 ->autocomplete('current-password')
                 ->required()
-                ->extraInputAttributes(['tabindex' => 2])
+                ->extraInputAttributes(['tabindex' => 2]),
         ])->statePath('data');
     }
 
@@ -62,47 +60,40 @@ class RegisterOtp extends Component implements HasActions, HasForms
     {
         return Action::make('submitAction')
             ->label('Check')
-            ->action(function (){
+            ->action(function () {
                 $this->authenticate();
             });
     }
 
-    protected function throwFailureOtpException(): never
-    {
-        throw ValidationException::withMessages([
-            'data.otp' => "otp not correct",
-        ]);
-    }
     public function authenticate()
     {
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
             Notification::make()
-                ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                ->title(trans('filament-panels::pages/auth/login.notifications.throttled.title', [
                     'seconds' => $exception->secondsUntilAvailable,
                     'minutes' => ceil($exception->secondsUntilAvailable / 60),
                 ]))
-                ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                ->body(array_key_exists('body', trans('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? trans('filament-panels::pages/auth/login.notifications.throttled.body', [
                     'seconds' => $exception->secondsUntilAvailable,
                     'minutes' => ceil($exception->secondsUntilAvailable / 60),
                 ]) : null)
                 ->danger()
                 ->send();
 
-            return null;
+            return;
         }
 
         $data = $this->form->getState();
         $user = $this->user;
 
-
-        if($data['otp'] != $user->otp_code){
+        if ($data['otp'] != $user->otp_code) {
             $this->throwFailureOtpException();
         }
 
-        $user->is_active = true;
-        $user->otp_code = true;
+        $user->is_active        = true;
+        $user->otp_code         = true;
         $user->otp_activated_at = now();
         $user->save();
 
@@ -113,6 +104,18 @@ class RegisterOtp extends Component implements HasActions, HasForms
         session()->regenerate();
 
         return redirect()->to('/user');
+    }
+
+    public function render()
+    {
+        return view('livewire.register-otp');
+    }
+
+    protected function throwFailureOtpException(): never
+    {
+        throw ValidationException::withMessages([
+            'data.otp' => 'otp not correct',
+        ]);
     }
 
     protected function getResendAction(): Action
@@ -129,44 +132,43 @@ class RegisterOtp extends Component implements HasActions, HasForms
             ->link()
             ->label('Resend OTP')
             ->color('warning')
-            ->action(function (array $data){
+            ->action(function (array $data) {
                 try {
                     $this->rateLimit(5);
                 } catch (TooManyRequestsException $exception) {
                     Notification::make()
-                        ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                        ->title(trans('filament-panels::pages/auth/login.notifications.throttled.title', [
                             'seconds' => $exception->secondsUntilAvailable,
                             'minutes' => ceil($exception->secondsUntilAvailable / 60),
                         ]))
-                        ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                        ->body(array_key_exists('body', trans('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? trans('filament-panels::pages/auth/login.notifications.throttled.body', [
                             'seconds' => $exception->secondsUntilAvailable,
                             'minutes' => ceil($exception->secondsUntilAvailable / 60),
                         ]) : null)
                         ->danger()
                         ->send();
 
-                    return null;
+                    return;
                 }
 
-                $otp = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+                $otp = mb_substr(number_format(time() * rand(), 0, '', ''), 0, 6);
                 session()->put('demo_otp', $otp);
                 $data = json_decode(session()->get('demo_user'));
 
                 try {
-                    $embeds = [];
-                    $embeds['description'] = "your OTP is: ". $otp;
-                    $embeds['url'] = url('/otp');
+                    $embeds                = [];
+                    $embeds['description'] = 'your OTP is: ' . $otp;
+                    $embeds['url']         = url('/otp');
 
                     $params = [
-                        'content' => "@" . $data->domain,
-                        'embeds' => [
-                            $embeds
-                        ]
+                        'content' => '@' . $data->domain,
+                        'embeds'  => [
+                            $embeds,
+                        ],
                     ];
 
                     Http::post(config('services.discord.otp-webhook'), $params)->json();
-
-                }catch (\Exception $e){
+                } catch (Exception $e) {
                     Notification::make()
                         ->title('Something went wrong')
                         ->danger()
@@ -180,10 +182,4 @@ class RegisterOtp extends Component implements HasActions, HasForms
                     ->send();
             });
     }
-
-    public function render()
-    {
-        return view('livewire.register-otp');
-    }
-
 }

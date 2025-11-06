@@ -1,6 +1,6 @@
 <div>
     <div>
-        <x-filament::section :heading="__('OTP')" :description="__('Please check our discord server for OTP')">
+        <x-filament::section :heading="trans('tomato.otp')" :description="trans('tomato.otp_description')">
             <x-filament-panels::form wire:submit.prevent="authenticate">
                 {{ $this->form }}
 

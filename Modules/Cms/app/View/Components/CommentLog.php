@@ -12,10 +12,7 @@ class CommentLog extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public AccountLog $log)
-    {
-        //
-    }
+    public function __construct(public AccountLog $log) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -1,10 +1,7 @@
 <?php
 
 use App\Jobs\SendPing;
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
-
 
 Schedule::command('repos:preload')->hourly();
 Schedule::command('repos:crawlable')->weekly();

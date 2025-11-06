@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataTransferObjects;
 
 use Carbon\Carbon;
@@ -35,7 +33,7 @@ final readonly class Issue implements Wireable
     {
         $issueDetails['createdAt'] = Carbon::parse($issueDetails['createdAt']);
         $issueDetails['createdBy'] = IssueOwner::fromArray($issueDetails['createdBy']);
-        $issueDetails['labels'] = Label::multipleFromArray($issueDetails['labels']);
+        $issueDetails['labels']    = Label::multipleFromArray($issueDetails['labels']);
         $issueDetails['reactions'] = Reaction::multipleFromArray($issueDetails['reactions']);
 
         unset($issueDetails['interactionsCount']);
@@ -43,31 +41,31 @@ final readonly class Issue implements Wireable
         return new self(...$issueDetails);
     }
 
+    public static function fromLivewire($value)
+    {
+        return self::fromArray($value);
+    }
+
     public function toLivewire()
     {
         return [
-            'id' => $this->id,
-            'number' => $this->number,
+            'id'       => $this->id,
+            'number'   => $this->number,
             'repoName' => $this->repoName,
-            'repoUrl' => $this->repoUrl,
-            'title' => $this->title,
-            'url' => $this->url,
-            'body' => $this->body,
-            'labels' => collect($this->labels)
+            'repoUrl'  => $this->repoUrl,
+            'title'    => $this->title,
+            'url'      => $this->url,
+            'body'     => $this->body,
+            'labels'   => collect($this->labels)
                 ->map(fn (Label $label): array => $label->toLivewire())
                 ->toArray(),
             'reactions' => collect($this->reactions)
                 ->map(fn (Reaction $reaction): array => $reaction->toLivewire())
                 ->toArray(),
-            'commentCount' => $this->commentCount,
-            'createdAt' => $this->createdAt,
-            'createdBy' => $this->createdBy->toLivewire(),
+            'commentCount'  => $this->commentCount,
+            'createdAt'     => $this->createdAt,
+            'createdBy'     => $this->createdBy->toLivewire(),
             'isPullRequest' => $this->isPullRequest,
         ];
-    }
-
-    public static function fromLivewire($value)
-    {
-        return self::fromArray($value);
     }
 }

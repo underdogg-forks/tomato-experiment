@@ -11,19 +11,20 @@ class ActiveMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(tenancy()){
-            if(tenancy()->tenant){
-                if(tenancy()->tenant->is_active){
+        if (tenancy()) {
+            if (tenancy()->tenant) {
+                if (tenancy()->tenant->is_active) {
                     return $next($request);
                 }
-                else {
-                    abort(503, "Tenant is not active");
-                }
+                abort(503, 'Tenant is not active');
             }
         }
+
+        // Ensure a Response is always returned
+        return $next($request);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default options
@@ -74,7 +73,7 @@ return [
     |
     */
     'check_routes' => true,
-    'routes' => ['*'],
+    'routes'       => ['*'],
 
     // If you wish to skip running some checks on some routes, list the routes
     // in the array below by using the route name. For example:
@@ -91,7 +90,7 @@ return [
     ],
 
     'throttle' => [
-        'enabled' => false,
+        'enabled'             => false,
         'requests_per_minute' => null,
     ],
 
@@ -121,8 +120,8 @@ return [
     */
     'database' => [
         'connection' => 'mysql',
-        'save' => true,
-        'prune' => [
+        'save'       => true,
+        'prune'      => [
             'older_than_days' => 30,
         ],
     ],
@@ -197,7 +196,6 @@ return [
         // If you wish to skip running, list the URLs in the array below.
         // You can use exact match or wildcards to match on beginning of URLs: https://vormkracht10.nl/directory/*
         'exclude_links' => [
-            //
         ],
     ],
 ];

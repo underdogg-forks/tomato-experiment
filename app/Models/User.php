@@ -16,11 +16,12 @@ use TomatoPHP\FilamentFcm\Traits\InteractsWithFCM;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use HasFactory, Notifiable;
-    use HasRoles;
-    use InteractsWithNotifications;
-    use InteractsWithFCM;
+    use HasFactory;
     use HasPlanSubscriptions;
+    use HasRoles;
+    use InteractsWithFCM;
+    use InteractsWithNotifications;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -33,9 +34,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'password',
         'packages',
         'username',
-        'profile_photo_path'
+        'profile_photo_path',
+        'account_id',
     ];
-
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,6 +48,24 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'remember_token',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->profile_photo_path;
+    }
+
+    /**
+     * Get the account that owns the user.
+     */
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -56,18 +75,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'packages' => 'json',
+            'password'          => 'hashed',
+            'packages'          => 'json',
         ];
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
-    public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->profile_photo_path;
     }
 }

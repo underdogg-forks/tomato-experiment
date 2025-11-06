@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Exceptions;
 
-final class RepoNotCrawlableException extends \Exception
-{
-}
+use Exception;
+
+class RepoNotCrawlableException extends Exception {}

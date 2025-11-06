@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-
-use App\Models\SocialAuth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 
-
 class Tenant extends \Stancl\Tenancy\Database\Models\Tenant implements TenantWithDatabase
 {
-    use HasDatabase, HasDomains;
+    use HasDatabase;
+    use HasDomains;
+    use HasFactory;
 
     protected $casts = [
-        'packages' => 'json',
+        'packages'  => 'json',
         'is_active' => 'boolean',
     ];
 
