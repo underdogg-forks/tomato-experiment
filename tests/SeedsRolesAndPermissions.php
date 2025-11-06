@@ -5,33 +5,20 @@ namespace Tests;
 use Illuminate\Support\Facades\Artisan;
 
 /**
- * Trait for seeding roles and permissions once for all tests.
- * Use this trait in tests that need roles/permissions to improve performance.
+ * Trait for seeding roles and permissions for tests.
+ * Use this trait in tests that need roles/permissions.
+ * 
+ * Note: This seeds roles for each test to work correctly with RefreshDatabase trait,
+ * which rolls back database transactions after each test.
  */
 trait SeedsRolesAndPermissions
 {
     /**
-     * Track if roles have been seeded in this test run.
-     */
-    protected static bool $rolesSeeded = false;
-
-    /**
-     * Seed roles and permissions if not already seeded.
+     * Seed roles and permissions for the current test.
+     * Called in setUp() to ensure roles are present after RefreshDatabase rollback.
      */
     protected function seedRolesAndPermissions(): void
     {
-        if ( ! static::$rolesSeeded) {
-            Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
-            static::$rolesSeeded = true;
-        }
-    }
-
-    /**
-     * Reset the seeded flag when tests are complete.
-     */
-    public static function tearDownAfterClass(): void
-    {
-        static::$rolesSeeded = false;
-        parent::tearDownAfterClass();
+        Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
     }
 }
