@@ -26,6 +26,10 @@ class TenantFactory extends Factory
      */
     public function definition(): array
     {
+        // Create an account with an owner user
+        $account = \App\Models\Account::factory()->create();
+        \App\Models\User::factory()->create(['account_id' => $account->id]);
+
         return [
             'id'         => 'tenant_' . Str::random(8),
             'name'       => fake()->company(),
@@ -34,7 +38,7 @@ class TenantFactory extends Factory
             'password'   => static::$password ??= Hash::make('password'),
             'is_active'  => true,
             'packages'   => [],
-            'account_id' => \App\Models\Account::factory(),
+            'account_id' => $account->id,
         ];
     }
 }

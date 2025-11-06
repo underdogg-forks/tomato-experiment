@@ -215,6 +215,15 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     }
 
     /**
+     * Get the owner of the account (alias for user()).
+     * The owner is the User who owns this Account.
+     */
+    public function owner()
+    {
+        return $this->user();
+    }
+
+    /**
      * Get the tenants owned by this account.
      *
      * @return HasMany

@@ -31,6 +31,11 @@ class UserSeeder extends Seeder
             ]
         );
 
+        // Assign user role to account
+        if ( ! $account->hasRole('user')) {
+            $account->assignRole('user');
+        }
+
         $user = User::firstOrCreate(
             ['email' => 'user@example.com'],
             [
@@ -41,6 +46,11 @@ class UserSeeder extends Seeder
                 'account_id'        => $account->id,
             ]
         );
+
+        // Assign user role to user
+        if ( ! $user->hasRole('user')) {
+            $user->assignRole('user');
+        }
 
         $this->command->info('Regular user created successfully!');
         $this->command->info('Email: user@example.com');
