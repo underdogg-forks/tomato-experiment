@@ -8,18 +8,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\HasDataProviders;
+use Tests\SeedsRolesAndPermissions;
 use Tests\TestCase;
 
 class RolesAndPermissionsTest extends TestCase
 {
     use HasDataProviders;
     use RefreshDatabase;
+    use SeedsRolesAndPermissions;
 
     protected function setUp(): void
     {
         parent::setUp();
-        // Seed roles and permissions
-        $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
+        // Seed roles and permissions (cached after first run)
+        $this->seedRolesAndPermissions();
     }
 
     /** @test */

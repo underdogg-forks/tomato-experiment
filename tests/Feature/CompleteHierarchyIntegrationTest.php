@@ -10,6 +10,7 @@ use Database\Seeders\TenantSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Tests\SeedsRolesAndPermissions;
 use Tests\TestCase;
 
 /**
@@ -19,12 +20,13 @@ use Tests\TestCase;
 class CompleteHierarchyIntegrationTest extends TestCase
 {
     use RefreshDatabase;
+    use SeedsRolesAndPermissions;
 
     protected function setUp(): void
     {
         parent::setUp();
-        // Seed roles and permissions
-        $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
+        // Seed roles and permissions (cached after first run)
+        $this->seedRolesAndPermissions();
     }
 
     /** @test */

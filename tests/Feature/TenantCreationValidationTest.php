@@ -7,17 +7,19 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Tests\SeedsRolesAndPermissions;
 use Tests\TestCase;
 
 class TenantCreationValidationTest extends TestCase
 {
     use RefreshDatabase;
+    use SeedsRolesAndPermissions;
 
     protected function setUp(): void
     {
         parent::setUp();
-        // Seed roles before running tests
-        $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
+        // Seed roles (cached after first run)
+        $this->seedRolesAndPermissions();
     }
 
     /** @test */

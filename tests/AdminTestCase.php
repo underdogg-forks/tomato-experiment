@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 abstract class AdminTestCase extends TestCase
 {
     use RefreshDatabase;
+    use SeedsRolesAndPermissions;
 
     protected User $adminUser;
 
@@ -25,8 +26,8 @@ abstract class AdminTestCase extends TestCase
     {
         parent::setUp();
 
-        // Seed roles and permissions before creating users
-        $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\ShieldSeeder']);
+        // Seed roles and permissions (cached after first run)
+        $this->seedRolesAndPermissions();
 
         // Create an account with an admin user
         $this->adminAccount = Account::factory()->create([
