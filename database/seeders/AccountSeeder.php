@@ -50,6 +50,11 @@ class AccountSeeder extends Seeder
             ]
         );
 
+        // Assign super_admin role to user
+        if ( ! $superAdminUser->hasRole('super_admin')) {
+            $superAdminUser->assignRole('super_admin');
+        }
+
         $this->command->info('Super Admin account and user created successfully!');
         $this->command->info('Email: admin@admin.com');
         $this->command->info('Password: password');

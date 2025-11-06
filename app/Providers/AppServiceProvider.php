@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Account;
+use App\Models\Tenant;
+use App\Observers\TenantObserver;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -40,6 +42,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register observers
+        Tenant::observe(TenantObserver::class);
+
         //URL::forceScheme('https');
 
         Event::listen(SyncedResourceChangedInForeignDatabase::class, function ($data) {
