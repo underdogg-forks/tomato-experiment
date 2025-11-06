@@ -12,6 +12,11 @@ use App\Enums\LoginBy;
 trait HasDataProviders
 {
     /**
+     * Fixed timestamp for consistent test data across timezones.
+     */
+    private const FIXED_TIMESTAMP = '2024-01-01 00:00:00';
+
+    /**
      * Provides valid account data for testing.
      *
      * @return array
@@ -63,7 +68,7 @@ trait HasDataProviders
                     'name'              => 'Test User',
                     'email'             => 'user@example.com',
                     'password'          => 'password123',
-                    'email_verified_at' => '2024-01-01 00:00:00',
+                    'email_verified_at' => self::FIXED_TIMESTAMP,
                 ],
             ],
             'admin user' => [
@@ -71,7 +76,7 @@ trait HasDataProviders
                     'name'              => 'Admin User',
                     'email'             => 'admin@example.com',
                     'password'          => 'admin123',
-                    'email_verified_at' => '2024-01-01 00:00:00',
+                    'email_verified_at' => self::FIXED_TIMESTAMP,
                 ],
             ],
         ];

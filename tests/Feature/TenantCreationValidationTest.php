@@ -35,7 +35,7 @@ class TenantCreationValidationTest extends TestCase
             'password'  => 'password',
             'is_active' => true,
             'packages'  => [],
-            // account_id is missing
+            // No account_id provided - should fail validation
         ]);
     }
 

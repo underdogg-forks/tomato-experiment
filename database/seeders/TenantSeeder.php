@@ -29,7 +29,7 @@ class TenantSeeder extends Seeder
 
         foreach ($accounts as $account) {
             // Verify account has an owner (user)
-            if ( ! $account->user) {
+            if (!$account->user) {
                 $this->command->warn("Account {$account->name} ({$account->email}) has no owner user. Skipping tenant creation.");
 
                 continue;
