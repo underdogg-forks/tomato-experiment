@@ -4,13 +4,25 @@ This guide explains how to use the seeders and factories for setting up your Lar
 
 ## Relationship Structure
 
-The application follows a hierarchical relationship model:
+The application follows a hierarchical relationship model with strict validation:
 
-**1 User → 1 Account → 3-5 Tenants**
+**1 User (Owner) → 1 Account → 3-5 Tenants**
 
-- Each **User** owns exactly **1 Account**
+- Each **User** owns exactly **1 Account** (User is the owner of the Account)
 - Each **Account** can own **multiple Tenants** (3-5 are seeded)
+- **Tenant creation requires** the Account to have an owner (User)
 - The **super_admin** can see everything
+
+### Important Validation Rules
+
+1. **Account Ownership**: Every Account must have an owner (User). This is enforced at the database level via the `account_id` foreign key on the `users` table.
+
+2. **Tenant Creation**: When creating a Tenant, the system validates:
+   - The Tenant must be associated with an Account (`account_id` is required)
+   - The Account must exist
+   - The Account must have an owner (User)
+   
+   If any of these conditions are not met, a `ValidationException` is thrown.
 
 ## What Was Created
 
@@ -41,14 +53,17 @@ The application follows a hierarchical relationship model:
 2. **AccountSeeder** (`database/seeders/AccountSeeder.php`)
    - Creates 1 super admin account
    - Creates 1 user for that super admin account (1 user → 1 account)
-   - Assigns super_admin role to the account
+   - Assigns super_admin role to both the account and the user
 
 3. **UserSeeder** (`database/seeders/UserSeeder.php`)
    - Creates regular users with their accounts (1 user → 1 account)
    - Each user gets exactly 1 account
+   - Assigns user role to both the account and the user
 
 4. **TenantSeeder** (`database/seeders/TenantSeeder.php`)
-   - Creates 3-5 tenants for each account in the system
+   - **Validates** that each account has an owner before creating tenants
+   - Creates 3-5 tenants for each account that has an owner
+   - Skips accounts without owners and logs a warning
    - Associates each tenant with its owner account
    - Creates domains for each tenant (tenant1.localhost, etc.)
    - Creates a user inside each tenant's database
@@ -168,13 +183,67 @@ If you encounter any issues:
 
 ## Notes
 
-- **Relationship hierarchy**: 1 User → 1 Account → 3-5 Tenants
+- **Relationship hierarchy**: 1 User (Owner) → 1 Account → 3-5 Tenants
+- **Tenant validation**: All Tenant creations are validated via `TenantObserver` to ensure the Account has an owner
+- **Role assignment**: Users and Accounts are automatically assigned roles during seeding
 - All seeders use `firstOrCreate()` to avoid duplicate entries
 - You can run the seeders multiple times without creating duplicates
-- The super admin account is automatically assigned the super_admin role
+- The super admin account and user are automatically assigned the super_admin role
+- Regular users and their accounts are automatically assigned the user role
 - Each account can own multiple tenants (3-5 are seeded randomly per account)
 - Each user has exactly one account (via the `account_id` foreign key)
 - The super_admin can see all tenants across all accounts
 - Regular users can only see their own account's tenants
 - Login at `/user/login` (AppsPanelProvider) to access the user panel
 - Each tenant has its own database with users inside it
+
+## Testing
+
+The application includes comprehensive tests:
+
+### Abstract Test Cases
+
+1. **AuthenticatedTestCase** (`tests/AuthenticatedTestCase.php`)
+   - Extend this class for tests requiring a logged-in user
+   - Automatically creates an account with owner and authenticates
+   - Provides `getUser()` and `getAccount()` helper methods
+
+2. **AdminTestCase** (`tests/AdminTestCase.php`)
+   - Extend this class for tests requiring admin privileges
+   - Automatically creates an admin account with owner and authenticates
+   - Provides `getAdminUser()` and `getAdminAccount()` helper methods
+
+3. **HasDataProviders** (`tests/HasDataProviders.php`)
+   - Trait providing centralized data providers for tests
+   - Includes providers for valid account data, user data, tenant data, roles, and permissions
+   - Use `@dataProvider` annotations to access these providers
+
+### Example Test Usage
+
+```php
+use Tests\AuthenticatedTestCase;
+
+class MyFeatureTest extends AuthenticatedTestCase
+{
+    /** @test */
+    public function user_can_access_dashboard()
+    {
+        // $this->user is automatically authenticated
+        $response = $this->get('/dashboard');
+        $response->assertStatus(200);
+    }
+}
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test suite
+php artisan test --testsuite=Feature
+
+# Run specific test class
+php artisan test tests/Feature/TenantCreationValidationTest.php
+```
