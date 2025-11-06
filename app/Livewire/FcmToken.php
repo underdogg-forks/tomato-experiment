@@ -10,16 +10,15 @@ use Livewire\Component;
 
 class FcmToken extends Component
 {
-
     #[On('fcm-token')]
     public function fcmToken(string $token)
     {
-        $detect = new MobileDetect();
+        $detect   = new MobileDetect();
         $fcmToken = \App\Models\FcmToken::query()->where('token', $token)->first();
-        if(!$fcmToken){
-            $fcmToken = new \App\Models\FcmToken();
+        if ( ! $fcmToken) {
+            $fcmToken        = new \App\Models\FcmToken();
             $fcmToken->token = $token;
-            $fcmToken->agent = $detect->isMobile() ? 'mobile' :'web';
+            $fcmToken->agent = $detect->isMobile() ? 'mobile' : 'web';
             $fcmToken->save();
         }
     }
@@ -28,9 +27,9 @@ class FcmToken extends Component
     public function fcmNotification(mixed $data)
     {
         $actions = [];
-        if(isset($data['data'])){
-            if(isset($data['data']['actions']) && is_object(json_decode($data['data']['actions']))){
-                foreach (json_decode($data['data']['actions']) as $action){
+        if (isset($data['data'])) {
+            if (isset($data['data']['actions']) && is_object(json_decode($data['data']['actions']))) {
+                foreach (json_decode($data['data']['actions']) as $action) {
                     $actions[] = Action::make($action->name)
                         ->color($action->color)
                         ->eventData($action->eventData)
@@ -45,13 +44,13 @@ class FcmToken extends Component
                         ->size($action->size)
                         ->tooltip($action->tooltip)
                         ->view($action->view)
-                        ->markAsUnread($action->shouldMarkAsUnRead??false)
-                        ->markAsRead($action->shouldMarkAsRead??false);
+                        ->markAsUnread($action->shouldMarkAsUnRead ?? false)
+                        ->markAsRead($action->shouldMarkAsRead ?? false);
                 }
             }
         }
 
-        if(isset($data['data']['sendToDatabase']) && $data['data']['sendToDatabase'] === true){
+        if (isset($data['data']['sendToDatabase']) && $data['data']['sendToDatabase'] === true) {
             Notification::make($data['data']['id'])
                 ->title($data['data']['title'])
                 ->actions($actions)
@@ -62,8 +61,7 @@ class FcmToken extends Component
                 ->duration($data['data']['duration'])
                 ->send()
                 ->sendToDatabase(auth()->user());
-        }
-        else {
+        } else {
             Notification::make($data['data']['id'])
                 ->title($data['data']['title'])
                 ->actions($actions)

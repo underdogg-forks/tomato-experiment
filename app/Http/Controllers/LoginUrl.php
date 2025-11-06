@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Stancl\Tenancy\Features\UserImpersonation;
@@ -15,48 +14,54 @@ class LoginUrl extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'token' => "required|string",
-            'email' => "required|string|email|max:255",
+            'token' => 'required|string',
+            'email' => 'required|string|email|max:255',
         ]);
 
         $tenant = tenancy()->tenant;
-        $user =  \App\Models\User::query()->where('email', $tenant->email)->first();
-        if($user){
+        $user   = \App\Models\User::query()->where('email', $tenant->email)->first();
+        if ($user) {
             $user->update([
-                'name' => $tenant->name,
-                'email' => $tenant->email,
+                'name'     => $tenant->name,
+                'email'    => $tenant->email,
                 'packages' => $tenant->packages,
                 'password' => $tenant->password,
             ]);
-        }
-        else {
-            $user = new User();
-            $user->name = $tenant->name;
-            $user->email = $tenant->email;
-            $user->password = $tenant->password;
-            $user->packages = $tenant->packages;
+        } else {
+            $user                    = new User();
+            $user->name              = $tenant->name;
+            $user->email             = $tenant->email;
+            $user->password          = $tenant->password;
+            $user->packages          = $tenant->packages;
             $user->email_verified_at = Carbon::now();
             $user->save();
         }
 
+        // PATCH: robust packageKeys extraction
+        $packageKeys = $user->packages;
+        if (is_string($packageKeys)) {
+            $packageKeys = json_decode($packageKeys, true) ?: [];
+        }
 
-        $getUserPackages = json_decode($user->packages);
-        if(is_array($getUserPackages)){
+        $getUserPackages = $packageKeys;
+        if (is_array($getUserPackages)) {
             $permissions = [];
-            $packages = config('app.packages');
-            foreach ($packages as $key=>$package){
-                if(in_array($key, $getUserPackages)){
-                    foreach ($package['permissions'] as $permission){
-                        $permissions  = array_merge($permissions, $this->generatePermissions($permission));
+            $packages    = config('app.packages');
+            foreach ($packages as $key => $package) {
+                if (in_array($key, $getUserPackages)) {
+                    foreach ($package['permissions'] as $permission) {
+                        $permissionsIds = $this->generatePermissions($permission);
+                        foreach ($permissionsIds as $pid) {
+                            $permissions[] = $pid;
+                        }
                     }
                 }
             }
 
-
             $role = Role::query()->where('name', 'super_admin')->first();
-            if(!$role){
+            if ( ! $role) {
                 $role = Role::query()->create([
-                    'name' => 'super_admin',
+                    'name'       => 'super_admin',
                     'guard_name' => 'web',
                 ]);
             }
@@ -64,8 +69,8 @@ class LoginUrl extends Controller
             $role->syncPermissions($permissions);
             $user->roles()->sync($role->id);
 
-            if($tenant->name){
-                $site = new \TomatoPHP\FilamentSettingsHub\Settings\SitesSettings();
+            if ($tenant->name) {
+                $site            = new \TomatoPHP\FilamentSettingsHub\Settings\SitesSettings();
                 $site->site_name = $tenant->name;
                 $site->save();
             }
@@ -76,12 +81,11 @@ class LoginUrl extends Controller
 
     public function generatePermissions(string $table)
     {
-        if(str($table)->contains('page')){
+        if (str($table)->contains('page')) {
             $array = [
-                $table
+                $table,
             ];
-        }
-        else {
+        } else {
             $array = [
                 'view_' . $table,
                 'view_any_' . $table,
@@ -96,21 +100,19 @@ class LoginUrl extends Controller
                 'force_delete_' . $table,
                 'force_delete_any_' . $table,
             ];
-
         }
 
-        $permissionsIds=[];
+        $permissionsIds = [];
         foreach ($array as $value) {
             $check = Permission::query()->where('name', $value)->where('guard_name', 'web')->first();
-            if(!$check){
+            if ( ! $check) {
                 $getId = Permission::query()->create([
-                    'name' => $value,
+                    'name'       => $value,
                     'guard_name' => 'web',
                 ]);
 
                 $permissionsIds[] = $getId->id;
-            }
-            else {
+            } else {
                 $permissionsIds[] = $check->id;
             }
         }

@@ -19,7 +19,7 @@
 >
     <x-slot name="trigger">
         <button
-            aria-label="{{ __('filament-panels::layout.actions.open_user_menu.label') }}"
+            aria-label="{{ trans('filament-panels::layout.actions.open_user_menu.label') }}"
             type="button"
 
         >
@@ -83,7 +83,7 @@
             method="post"
             tag="form"
         >
-            {{ $logoutItem?->getLabel() ?? __('filament-panels::layout.actions.logout.label') }}
+            {{ $logoutItem?->getLabel() ?? trans('filament-panels::layout.actions.logout.label') }}
         </x-filament::dropdown.list.item>
     </x-filament::dropdown.list>
 </x-filament::dropdown>

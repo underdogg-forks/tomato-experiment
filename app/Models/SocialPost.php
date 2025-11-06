@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-final class SocialPost extends Model
+class SocialPost extends Model
 {
     use HasFactory;
 
@@ -25,6 +23,6 @@ final class SocialPost extends Model
 
     public function tweetWasSent(): bool
     {
-        return ! is_null($this->twitter_sent_at);
+        return null !== $this->twitter_sent_at;
     }
 }

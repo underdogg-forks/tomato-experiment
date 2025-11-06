@@ -22,7 +22,7 @@ return [
      */
     'add_anchors_to_headings' => true,
 
-    /**
+    /*
      * When enabled, anchors will be rendered as links.
      */
     'render_anchors_as_links' => false,
@@ -44,7 +44,6 @@ return [
      * caching set this value to `false`.
      */
     'cache_store' => null,
-
 
     /*
      * When cache_store is enabled, this value will be used to determine
@@ -71,7 +70,6 @@ return [
      * More info: https://commonmark.thephpleague.com/2.4/extensions/overview/
      */
     'extensions' => [
-        //
     ],
 
     /*

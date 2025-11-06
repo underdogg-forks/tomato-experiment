@@ -14,10 +14,7 @@ class OpenSourceCard extends Component
      */
     public function __construct(
         public Post $post,
-    )
-    {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

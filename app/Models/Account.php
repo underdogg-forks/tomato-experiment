@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\AccountType;
+use App\Enums\LoginBy;
 use Bavix\Wallet\Interfaces\Wallet;
-use Bavix\Wallet\Traits\HasWallet;
 use Bavix\Wallet\Traits\HasWalletFloat;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Notifications\Notification;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,57 +18,60 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
-use TomatoPHP\FilamentAccounts\Models\AccountRequest;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasRoles;
+use TomatoPHP\FilamentAccounts\Models\AccountRequest;
+use TomatoPHP\FilamentAccounts\Models\AccountsMeta;
 use TomatoPHP\FilamentAccounts\Traits\InteractsWithTenant;
 use TomatoPHP\FilamentAlerts\Traits\InteractsWithNotifications;
-use TomatoPHP\FilamentCms\Filament\Resources\PostResource;
 use TomatoPHP\FilamentCms\Models\Comment;
 use TomatoPHP\FilamentCms\Models\Post;
-use TomatoPHP\FilamentDocs\Traits\InteractsWithDocs;
 use TomatoPHP\FilamentEmployees\Traits\IsEmployee;
 use TomatoPHP\FilamentFcm\Traits\InteractsWithFCM;
 use TomatoPHP\FilamentInvoices\Traits\BilledFor;
-use TomatoPHP\FilamentInvoices\Traits\BilledTo;
 use TomatoPHP\FilamentLocations\Models\Location;
 
 /**
- * @property integer $id
- * @property string $name
- * @property string $username
- * @property string $loginBy
- * @property string $type
- * @property string $address
- * @property string $password
- * @property string $otp_code
- * @property string $otp_activated_at
- * @property string $last_login
- * @property string $agent
- * @property string $host
- * @property integer $attempts
- * @property boolean $login
- * @property boolean $activated
- * @property boolean $blocked
- * @property string $deleted_at
- * @property string $created_at
- * @property string $updated_at
+ * @property int            $id
+ * @property string         $name
+ * @property string         $username
+ * @property string         $loginBy
+ * @property string         $type
+ * @property string         $address
+ * @property string         $password
+ * @property string         $otp_code
+ * @property string         $otp_activated_at
+ * @property string         $last_login
+ * @property string         $agent
+ * @property string         $host
+ * @property int            $attempts
+ * @property bool           $login
+ * @property bool           $activated
+ * @property bool           $blocked
+ * @property string         $deleted_at
+ * @property string         $created_at
+ * @property string         $updated_at
  * @property AccountsMeta[] $accountsMetas
  * @property Model meta($key, $value)
  * @property Location[] $locations
  */
 class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants, Wallet, FilamentUser
 {
-    use InteractsWithMedia;
-    use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
-    use InteractsWithTenant;
-    use HasWalletFloat;
-    use InteractsWithNotifications;
-    use InteractsWithFCM;
     use BilledFor;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRoles;
+    use HasWalletFloat;
+    use InteractsWithFCM;
+    use InteractsWithMedia;
+    use InteractsWithNotifications;
+    use InteractsWithTenant;
     use IsEmployee;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * @var array
@@ -91,13 +96,16 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         'is_active',
         'deleted_at',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
-        'is_login' => 'boolean',
-        'is_active' => 'boolean'
+        'type'      => AccountType::class,
+        'loginBy'   => LoginBy::class,
+        'is_login'  => 'boolean',
+        'is_active' => 'boolean',
     ];
+
     protected $dates = [
         'deleted_at',
         'created_at',
@@ -109,7 +117,7 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     protected $appends = [
         'birthday',
         'gender',
-        'is_public'
+        'is_public',
     ];
 
     protected $hidden = [
@@ -126,10 +134,10 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
      */
     public function getFilamentAvatarUrl(): ?string
     {
-        return  $this->getFirstMediaUrl('avatar')?? null;
+        return  $this->getFirstMediaUrl('avatar') ?? null;
     }
 
-    public function getIsPublicAttribute(): Model|string|null|bool
+    public function getIsPublicAttribute(): Model|string|bool|null
     {
         return $this->meta('is_public') ?: null;
     }
@@ -150,7 +158,6 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         return $this->meta('gender') ?: null;
     }
 
-
     /**
      * @return HasMany
      */
@@ -159,34 +166,29 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         return $this->hasMany('TomatoPHP\FilamentAccounts\Models\AccountsMeta');
     }
 
-
     /**
-     * @param string $key
+     * @param string                   $key
      * @param string|array|object|null $value
+     *
      * @return Model|string|array|null
      */
-    public function meta(string $key, string|array|object|null $value=null): Model|string|null|array
+    public function meta(string $key, string|array|object|null $value = null): Model|string|array|null
     {
-        if($value!==null){
-            if($value === 'null'){
+        if ($value !== null) {
+            if ($value === 'null') {
                 return $this->accountsMetas()->updateOrCreate(['key' => $key], ['value' => null]);
             }
-            else {
-                return $this->accountsMetas()->updateOrCreate(['key' => $key], ['value' => $value]);
-            }
+
+            return $this->accountsMetas()->updateOrCreate(['key' => $key], ['value' => $value]);
         }
-        else {
-            $meta = $this->accountsMetas()->where('key', $key)->first();
-            if($meta){
-                return $meta->value;
-            }
-            else {
-                return $this->accountsMetas()->updateOrCreate(['key' => $key], ['value' => null]);
-            }
+
+        $meta = $this->accountsMetas()->where('key', $key)->first();
+        if ($meta) {
+            return $meta->value;
         }
+
+        return $this->accountsMetas()->updateOrCreate(['key' => $key], ['value' => null]);
     }
-
-
 
     /**
      * @return MorphMany
@@ -205,6 +207,24 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
     }
 
     /**
+     * Get the user that owns the account.
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'account_id', 'id');
+    }
+
+    /**
+     * Get the tenants owned by this account.
+     *
+     * @return HasMany
+     */
+    public function tenants(): HasMany
+    {
+        return $this->hasMany(Tenant::class, 'account_id', 'id');
+    }
+
+    /**
      * @return HasMany
      */
     public function likes(): HasMany
@@ -214,46 +234,44 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
 
     public function like(Post $post)
     {
-        $exists = $this->likes()->where('post_id',$post->id)->first();
+        $exists = $this->likes()->where('post_id', $post->id)->first();
 
-        if(!$exists){
+        if ( ! $exists) {
             $this->likes()->create(['post_id' => $post->id]);
-            $post->likes +=1;
+            $post->likes += 1;
             $post->save();
 
             $this->log($post, 'like', 'liked post');
-            if($post->author){
+            if ($post->author) {
                 Notification::make()
-                    ->title("New Like")
+                    ->title('New Like')
                     ->body("{$this->name} liked your post.")
                     ->actions([
                         \Filament\Notifications\Actions\Action::make('viewComment')
                             ->label('View Comment')
-                            ->url(url('/admin/posts/' . $post->id . '/show'))
+                            ->url(url('/admin/posts/' . $post->id . '/show')),
                     ])
                     ->success()
                     ->sendToDatabase($post->author);
             }
-        }
-        else {
+        } else {
             $exists->delete();
 
-            $post->likes -=1;
+            $post->likes -= 1;
             $post->save();
 
-            if($post->author){
+            if ($post->author) {
                 Notification::make()
-                    ->title("New Dislike")
+                    ->title('New Dislike')
                     ->body("{$this->name} disliked your post.")
                     ->actions([
                         \Filament\Notifications\Actions\Action::make('viewComment')
                             ->label('View Comment')
-                            ->url(url('/admin/posts/' . $post->id . '/show'))
+                            ->url(url('/admin/posts/' . $post->id . '/show')),
                     ])
                     ->success()
                     ->sendToDatabase($post->author);
             }
-
         }
     }
 
@@ -265,14 +283,14 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         return $this->morphMany(Comment::class, 'user');
     }
 
-
     /**
      * @param Post $post
+     *
      * @return bool
      */
     public function isLike(Post $post): bool
     {
-        return (bool)$this->likes()->where('post_id', $post->id)->first();
+        return (bool) $this->likes()->where('post_id', $post->id)->first();
     }
 
     /**
@@ -283,27 +301,42 @@ class Account extends Authenticatable implements HasMedia, HasAvatar, HasTenants
         return $this->hasMany(AccountLog::class);
     }
 
-
     /**
-     * @param Model $model
-     * @param string $action
+     * @param Model       $model
+     * @param string      $action
      * @param string|null $log
      * @param string|null $date
+     *
      * @return Model
      */
-    public function log(Model $model, string $action='comment', string $log =null, string $date=null): Model
+    public function log(Model $model, string $action = 'comment', ?string $log = null, ?string $date = null): Model
     {
         $data = [
-            'action' => $action,
-            'log' => $log,
+            'action'     => $action,
+            'log'        => $log,
             'model_type' => $model ? get_class($model) : null,
-            'model_id' => $model ? $model->id : null,
+            'model_id'   => $model ? $model->id : null,
         ];
 
-        if($date){
+        if ($date) {
             $data['created_at'] = $date;
         }
 
-       return $this->logs()->create($data);
+        return $this->logs()->create($data);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return true;
+    }
+
+    public function getTenants(Panel $panel): array|Collection
+    {
+        return $this->tenants;
     }
 }

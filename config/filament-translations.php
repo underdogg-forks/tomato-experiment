@@ -1,7 +1,5 @@
 <?php
 
-use App\Providers\TenancyServiceProvider;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -11,10 +9,10 @@ return [
     | add path that will be show to the scaner to catch lanuages tags
     |
     */
-    "paths" => [
+    'paths' => [
         app_path(),
         resource_path('views'),
-        base_path('vendor')
+        base_path('vendor'),
     ],
 
     /*
@@ -25,8 +23,7 @@ return [
     | set the redirect path when change the language between selected path or next request
     |
     */
-    "redirect" => "next",
-
+    'redirect' => 'next',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +34,7 @@ return [
     |
     */
 
-    "excludedPaths" => [],
-
+    'excludedPaths' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -48,25 +44,24 @@ return [
     | add the locals that will be show on the languages selector
     |
     */
-    "locals" => [
-        "en" => [
-            "label" => "English",
-            "flag" => "us"
+    'locals' => [
+        'en' => [
+            'label' => 'English',
+            'flag'  => 'us',
         ],
-        "ar" => [
-            "label" => "Arabic",
-            "flag" => "eg"
+        'ar' => [
+            'label' => 'Arabic',
+            'flag'  => 'eg',
         ],
-        "pt_BR" => [
-            "label" => "Português (Brasil)",
-            "flag" => "br"
+        'pt_BR' => [
+            'label' => 'Português (Brasil)',
+            'flag'  => 'br',
         ],
-        "my" => [
-            "label" => "Burmese",
-            "flag" => "mm"
+        'my' => [
+            'label' => 'Burmese',
+            'flag'  => 'mm',
         ],
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +71,7 @@ return [
     | use simple modal resource for the translation resource
     |
     */
-    "modal" => true,
+    'modal' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -136,7 +131,7 @@ return [
      | Show buttons in Translation resource.
      |
      */
-    'scan_enabled' => true,
+    'scan_enabled'   => true,
     'export_enabled' => true,
     'import_enabled' => true,
 
@@ -156,7 +151,6 @@ return [
      */
     'path_to_custom_excel_import' => null,
 
-
     /*
      |--------------------------------------------------------------------------
      |
@@ -167,5 +161,5 @@ return [
         'web',
         'universal',
         \TomatoPHP\FilamentTenancy\FilamentTenancyServiceProvider::TENANCY_IDENTIFICATION,
-    ]
+    ],
 ];

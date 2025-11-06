@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Exceptions;
 
-final class GitHubRateLimitException extends \Exception
-{
-}
+use Exception;
+
+class GitHubRateLimitException extends Exception {}

@@ -1,23 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Services\Twitter;
 
 use Illuminate\Support\Arr;
 use PHPUnit\Framework\Assert;
 use stdClass;
 
-final class TwitterFake implements TwitterInterface
+class TwitterFake implements TwitterInterface
 {
-    protected array $tweets = [];
+    private array $tweets = [];
 
     public function tweet(string $status): ?array
     {
         $this->tweets[] = $status;
 
-        $data = new stdClass();
-        $data->id = fake()->numberBetween(1_000_000_000_000_000_000, 2_000_000_000_000_000_000);
+        $data       = new stdClass();
+        $data->id   = fake()->numberBetween(1_000_000_000_000_000_000, 2_000_000_000_000_000_000);
         $data->text = $status;
 
         return compact('data');

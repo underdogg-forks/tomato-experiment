@@ -5,14 +5,12 @@ namespace App\Livewire;
 use App\Models\Tenant;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
-use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
+use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Forms;
-use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +25,6 @@ class Login extends Component implements HasForms, HasActions
     use WithRateLimiting;
 
     public array $data = [];
-
 
     public function mount()
     {
@@ -51,11 +48,10 @@ class Login extends Component implements HasForms, HasActions
                         ->required()
                         ->password()
                         ->revealable(filament()->arePasswordsRevealable())
-                        ->rule(Password::default())
-                ])
+                        ->rule(Password::default()),
+                ]),
         ])->statePath('data');
     }
-
 
     public function submit()
     {
@@ -63,32 +59,30 @@ class Login extends Component implements HasForms, HasActions
 
         $data = $this->form->getState();
 
-
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
             Notification::make()
-                ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                ->title(trans('filament-panels::pages/auth/login.notifications.throttled.title', [
                     'seconds' => $exception->secondsUntilAvailable,
                     'minutes' => ceil($exception->secondsUntilAvailable / 60),
                 ]))
-                ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                ->body(array_key_exists('body', trans('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? trans('filament-panels::pages/auth/login.notifications.throttled.body', [
                     'seconds' => $exception->secondsUntilAvailable,
                     'minutes' => ceil($exception->secondsUntilAvailable / 60),
                 ]) : null)
                 ->danger()
                 ->send();
 
-            return null;
+            return;
         }
-
 
         $record = Tenant::query()
             ->where('email', $data['email'])
             ->first();
 
-        if($record){
-            if(Hash::check($data['password'], $record->password)){
+        if ($record) {
+            if (Hash::check($data['password'], $record->password)) {
                 $this->form->fill([]);
 
                 session()->regenerate();
@@ -97,15 +91,13 @@ class Login extends Component implements HasForms, HasActions
 
                 return redirect()->to('https://' . $record->domains[0]->domain . '.' . config('app.domain') . '/login/url?token=' . $token->token . '&email=' . $record->email);
             }
-            else {
-                Notification::make()
-                    ->title(trans('cms::messages.login.notifications.error.title'))
-                    ->body(trans('cms::messages.login.notifications.error.body'))
-                    ->danger()
-                    ->send();
-            }
-        }
-        else {
+
+            Notification::make()
+                ->title(trans('cms::messages.login.notifications.error.title'))
+                ->body(trans('cms::messages.login.notifications.error.body'))
+                ->danger()
+                ->send();
+        } else {
             Notification::make()
                 ->title(trans('cms::messages.login.notifications.error.title'))
                 ->body(trans('cms::messages.login.notifications.error.body'))

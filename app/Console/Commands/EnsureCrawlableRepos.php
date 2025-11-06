@@ -1,22 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands;
 
 use App\Jobs\EnsureRepoIsCrawlable;
 use App\Services\RepoService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Throwable;
 
-final class EnsureCrawlableRepos extends Command
+class EnsureCrawlableRepos extends Command
 {
     protected $signature = 'repos:crawlable';
 
     protected $description = 'Loop through each repo and ensure it is crawlable. Alert if not.';
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function handle(): int
     {
@@ -28,7 +27,7 @@ final class EnsureCrawlableRepos extends Command
             })
             ->count();
 
-        $this->components->info('Dispatched '.$jobsCount.' jobs to ensure repos are crawlable.');
+        $this->components->info('Dispatched ' . $jobsCount . ' jobs to ensure repos are crawlable.');
 
         return self::SUCCESS;
     }

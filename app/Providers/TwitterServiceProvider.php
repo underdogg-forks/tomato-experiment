@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Providers;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -11,7 +9,7 @@ use App\Services\Twitter\TwitterInterface;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
-final class TwitterServiceProvider extends ServiceProvider
+class TwitterServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

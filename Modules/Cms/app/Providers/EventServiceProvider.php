@@ -25,8 +25,5 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureEmailVerification(): void
-    {
-
-    }
+    protected function configureEmailVerification(): void {}
 }

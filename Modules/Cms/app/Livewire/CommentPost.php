@@ -11,25 +11,26 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Livewire\Component;
-use TomatoPHP\FilamentCms\Filament\Resources\PostResource;
 use TomatoPHP\FilamentCms\Models\Comment;
 use TomatoPHP\FilamentCms\Models\Post;
 
 class CommentPost extends Component implements HasActions, HasForms
 {
-    use InteractsWithForms;
     use InteractsWithActions;
+    use InteractsWithForms;
 
     public array $data = [];
+
     public ?Post $post = null;
 
-    public function mount(Post $post){
+    public Form $form;
+
+    public function mount(Post $post)
+    {
         $this->post = $post;
         $this->form->fill([
-            'comment' => ''
+            'comment' => '',
         ]);
     }
 
@@ -38,7 +39,7 @@ class CommentPost extends Component implements HasActions, HasForms
         return $form->schema([
             MarkdownEditor::make('comment')
                 ->label(trans('cms::messages.comments.comment'))
-                ->required()
+                ->required(),
         ])->statePath('data');
     }
 
@@ -50,13 +51,13 @@ class CommentPost extends Component implements HasActions, HasForms
             ->label(trans('cms::messages.comments.edit'))
             ->color('warning')
             ->icon('heroicon-o-pencil')
-            ->fillForm(fn(array $arguments)=> $arguments['comment'])
+            ->fillForm(fn (array $arguments) => $arguments['comment'])
             ->form([
                 MarkdownEditor::make('comment')
                     ->label(trans('cms::messages.comments.comment'))
-                    ->required()
+                    ->required(),
             ])
-            ->action(function(array $arguments, array $data){
+            ->action(function (array $arguments, array $data) {
                 $comment = Comment::query()
                     ->where('id', $arguments['comment']['id'])
                     ->where('user_type', Account::class)
@@ -64,7 +65,7 @@ class CommentPost extends Component implements HasActions, HasForms
                     ->first();
 
                 $comment->update([
-                    'comment' => $data['comment']
+                    'comment' => $data['comment'],
                 ]);
 
                 Notification::make()
@@ -84,7 +85,7 @@ class CommentPost extends Component implements HasActions, HasForms
             ->label(trans('cms::messages.comments.delete'))
             ->color('danger')
             ->icon('heroicon-o-trash')
-            ->action(function(array $arguments){
+            ->action(function (array $arguments) {
                 $comment = Comment::query()
                     ->where('id', $arguments['comment']['id'])
                     ->where('user_type', Account::class)
@@ -101,37 +102,38 @@ class CommentPost extends Component implements HasActions, HasForms
             });
     }
 
-
     public function sendAction(): Action
     {
         return Action::make('sendAction')
             ->label(trans('cms::messages.comments.send'))
-            ->action(function(){
-               $this->form->validate();
+            ->action(function () {
+                $this->form->validate();
 
-               $data = $this->form->getState();
+                $data = $this->form->getState();
 
                 $this->post->comments()->create([
-                     'comment' => $data['comment'],
-                     'user_id' => auth('accounts')->id(),
-                     'user_type' => Account::class,
-                    'is_active' => 1
+                    'comment'   => $data['comment'],
+                    'user_id'   => auth('accounts')->id(),
+                    'user_type' => Account::class,
+                    'is_active' => 1,
                 ]);
 
-                auth('accounts')->user()->log($this->post, 'comment', $data['comment']);
+                if (auth('accounts')->user()) {
+                    auth('accounts')->user()->log($this->post, 'comment', $data['comment']);
+                }
 
                 $this->form->fill([
-                    'comment' => ''
+                    'comment' => '',
                 ]);
 
-                if($this->post->author){
+                if ($this->post->author) {
                     Notification::make()
-                        ->title("New Comment")
-                        ->body(auth('accounts')->user()->name . " add a new comment has been added to your post")
+                        ->title('New Comment')
+                        ->body(auth('accounts')->user()->name . ' add a new comment has been added to your post')
                         ->actions([
                             \Filament\Notifications\Actions\Action::make('viewComment')
                                 ->label('View Comment')
-                                ->url(url('/admin/posts/' . $this->post->id . '/show'))
+                                ->url(url('/admin/posts/' . $this->post->id . '/show')),
                         ])
                         ->success()
                         ->sendToDatabase($this->post->author);

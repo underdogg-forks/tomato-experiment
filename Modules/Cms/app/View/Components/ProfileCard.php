@@ -13,10 +13,7 @@ class ProfileCard extends Component
      */
     public function __construct(
         public Account $account
-    )
-    {
-        //
-    }
+    ) {}
 
     /**
      * Get the view/contents that represent the component.

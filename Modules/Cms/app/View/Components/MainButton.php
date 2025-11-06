@@ -17,10 +17,7 @@ class MainButton extends Component
         public ?string $url = null,
         public ?bool $away = false,
         public ?string $type = 'a',
-    )
-    {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
